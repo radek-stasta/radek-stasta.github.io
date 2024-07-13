@@ -1,2 +1,14 @@
-<app-article-viewer></app-article-viewer>
+<!-- HEADER -->
+<div
+  #stickyHeader
+  class="h-16 bg-white transition-transform fade-in sticky-top"
+  [ngClass]="headerClasses"
+>
+  <div>Menu</div>
+</div>
+
+<!-- CONTENT -->
+<div>
+  <app-article-viewer></app-article-viewer>
+</div>
 <router-outlet />
