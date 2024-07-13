@@ -1,6 +1,12 @@
 #+title:  Publishing Angular website to Github Pages
+#+BEGIN_SRC html
+<div class="flex gap-x-1">
+#+END_SRC
 #+author: Radek Šťasta
-#+date:   <{{lastModified}}>
+#+date:   {{lastModified}}
+#+BEGIN_SRC html
+</div>
+#+END_SRC
 
 * Test heading
 ** Sub heading
