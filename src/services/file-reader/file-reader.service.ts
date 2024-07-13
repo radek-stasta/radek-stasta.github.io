@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
+export interface IReadFileResult {
+  text: string;
+  lastModified: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +21,7 @@ export class FileReaderService {
       }),
     );
     const lastModified = response.headers.get('Last-Modified');
-    console.log(lastModified);
-    return response.body;
+
+    return { text: response.body, lastModified } as IReadFileResult;
   }
 }
