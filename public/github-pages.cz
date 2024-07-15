@@ -35,3 +35,9 @@ jako jeho zdrojové soubory.
 * Návod na publikování Angular aplikace do Github Pages
 
 ** Vytvoření jednostránkové Angular webové aplikace
+
+Nejprve vytvoříme jednoduchou jednostránkovou webovou aplikaci pomocí Angular CLI. Tento nástroj nám umožní vytvořit
+jednoduchý projekt v Angularu a také vytvoří pro tento projekt lokální Git repozitář. Pokud v systému Angular CLI není
+nainstalovaný, je možné ho nainstalovat pomocí příkazu
+
+~npm install -g @angular/cli~

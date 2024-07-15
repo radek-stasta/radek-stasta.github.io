@@ -48,6 +48,13 @@ export class OrgToHtmlConverterService {
         `<a href="${g1}" target="_blank" class="text-rose-600 hover:underline">${g2}</a>`;
       line = line.replace(orgLinkPattern, replacer);
 
+      // Check for code pattern and replace it with HTML code tag
+      const codePattern = /~(.*?)~/g;
+      if (codePattern.test(line)) {
+        const replacerCode = (_: string, g1: string) => `${g1}`;
+        line = line.replace(codePattern, replacerCode);
+      }
+
       for (const tag in this.tags) {
         if (line.startsWith(tag)) {
           const key = tag as keyof typeof this.tags;
