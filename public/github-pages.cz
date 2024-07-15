@@ -1,4 +1,4 @@
-#+title:  Publishing Angular website to Github Pages
+#+title:  Publikování Angular webové aplikace do Github Pages
 #+BEGIN_SRC html
 <div class="flex gap-x-1">
 #+END_SRC
@@ -8,157 +8,30 @@
 </div>
 #+END_SRC
 
-* Test heading
-** Sub heading
+* Úvod
 
-This is first paragraph
+Při vytváření webových stránek je nutným požadavkem vystavit tyto stránky na internet, aby byly dostupné světu na zvolené
+webovou adrese. Pro tyto účely slouží řada webhostingových poskytovatelů, poskytujících služby jak zdarma, tak za poplatky.
+V dřívějších dobách byl klasický scénář vytváření webu takkový, že si člověk vytvořil většinou vícestránkový web (tedy
+web skládající se z jednotlivých html stránek jako Domů, Kontakt, atd.), zaplatil si doménu a na tuto doménu nahrál
+potřebné soubory. V dnešní době je však běžné mít jednostránkový web (vytvořený například ve frameworcích jako je
+Angular, React, Vue). Záleží samozřejmě na použití. Oba přístupy mají své pro a proti. Navíc je nyní již běžné mít
+zdrojové kódy zálohované verzovacím nástrojem jako je například Git. Webová služba GitHub nabízí toto verzování pro
+každého zdarma (pro základní použití) a také nabízí službu Github Pages, které se věnuje tento článek.
 
-This is second paragraph
+Github Pages nabízí to samé jako ostatní hostingoví poskytovatelé. To znamená publikování webových stránek pod webovou
+adresou projektu v Githubu. V tomto článku se konktétně zaměříme na to, jak vytvořit Angular webovou aplikaci a tuto pomocí
+Github Pages publikovat na webu. Výhodou tohoto přístupu je skutečnost, že máte zdrojové kódy webové aplikace uložené v projektu v
+Githubu, ze kterých se například pomocí balíčku gh-pages vytvoří finální web a ten je verzován ve stejném Github projetku,
+jako jeho zdrojové soubory.
 
-Web applications can be built in different ways. One common approach is to have multiple pages, which often means tightly coupled the front and back ends. Think of it like building a book with each page connected to the others.
+* Požadavky
 
-On the other hand, there's the single-page approach, where the front end and the back end are more separate. It's like having a front and back cover with all the pages inside, but they're not glued together.
+- Účet na [[https://github.com/][GitHubu]], kde bude vytvořen projekt a následně publikován skrze GitHub Pages
+- Nainstalovyný verzovací nástroj [[https://git-scm.com/][Git]]
+- Nainstalované [[https://nodejs.org/][Node.js]] a npm (Node Package Manager)
+- Základní porozumění práce s příkazovým řádkem ve zvoleném operačním systému. Tento návod byl vytvářen v systému Linux, ale ve Windows by se příkazy neměly nijak lišit
 
-Single-page applications are popular because they're easier to maintain, offer better user experiences, and handle caching well. To build them, developers use frameworks like Angular, React, Svelte, or Vue.js.
+* Návod na publikování Angular aplikace do Github Pages
 
-But once you've built your single-page app, you need to put it somewhere so people can access it on the internet. You could set up your own server, but that can be complicated. Or you can use a service like GitHub Pages, which is free and easy to use.
-
-Introduction to GitHub Pages
-GitHub Pages is a website hosting service provided by GitHub, a popular platform for hosting software development projects using Git. It allows users to host websites directly from their GitHub repositories.
-
-This service is particularly useful for developers, as it seamlessly integrates with their existing GitHub workflow and provides free hosting for personal and project websites. GitHub Pages is a free service from GitHub that lets developers turn their code into websites.
-
-Basically, if you have HTML files, JavaScript, and CSS files for a website stored in a GitHub repository, you can make those files public so anyone can see your site.
-
-One cool thing about GitHub Pages is that it works seamlessly with other GitHub features. For example, you can use GitHub Actions to run tests on your website code.
-
-Plus, GitHub Pages gives you a free web address that ends in ".github.io". If you already have your own domain name, you can use that instead.
-
-Prerequisites
-Before we dive into the Angular web hosting process, make sure you have the following prerequisites:
-
-1. Basic understanding of Angular
-Familiarity with Angular framework and Angular CLI is essential for building Angular applications.
-
-2. GitHub Account
-You'll need a GitHub account to create repositories and host your Angular app on GitHub Pages.
-
-3. Node.js and npm
-Make sure Node.js and npm (Node Package Manager) are installed on your computer for development.
-
-Step-by-Step Guide to Host Your Angular App on GitHub Pages
-Creating a single-page application with Angular
-To create a single-page application (SPA) with Angular, you'll use a tool called Angular CLI. It helps with setting up and managing Angular projects. If you already have an Angular app ready, you can skip to the next part.
-
-Here's how to install Angular CLI:
-
-Open your terminal or command prompt.
-
-Type the following command and press Enter:
-
-npm install -g @angular/cli
-This command installs Angular CLI globally on your computer. Once it's done, you're ready to create your Angular app.
-
-Now, to create your Angular app, you'll use Angular CLI again. Here's what you need to do:
-
-Open your terminal or command prompt.
-
-Type the following command:
-Web applications can be built in different ways. One common approach is to have multiple pages, which often means tightly coupled the front and back ends. Think of it like building a book with each page connected to the others.
-
-On the other hand, there's the single-page approach, where the front end and the back end are more separate. It's like having a front and back cover with all the pages inside, but they're not glued together.
-
-Single-page applications are popular because they're easier to maintain, offer better user experiences, and handle caching well. To build them, developers use frameworks like Angular, React, Svelte, or Vue.js.
-
-But once you've built your single-page app, you need to put it somewhere so people can access it on the internet. You could set up your own server, but that can be complicated. Or you can use a service like GitHub Pages, which is free and easy to use.
-
-Introduction to GitHub Pages
-GitHub Pages is a website hosting service provided by GitHub, a popular platform for hosting software development projects using Git. It allows users to host websites directly from their GitHub repositories.
-
-This service is particularly useful for developers, as it seamlessly integrates with their existing GitHub workflow and provides free hosting for personal and project websites. GitHub Pages is a free service from GitHub that lets developers turn their code into websites.
-
-Basically, if you have HTML files, JavaScript, and CSS files for a website stored in a GitHub repository, you can make those files public so anyone can see your site.
-
-One cool thing about GitHub Pages is that it works seamlessly with other GitHub features. For example, you can use GitHub Actions to run tests on your website code.
-
-Plus, GitHub Pages gives you a free web address that ends in ".github.io". If you already have your own domain name, you can use that instead.
-
-Prerequisites
-Before we dive into the Angular web hosting process, make sure you have the following prerequisites:
-
-1. Basic understanding of Angular
-Familiarity with Angular framework and Angular CLI is essential for building Angular applications.
-
-2. GitHub Account
-You'll need a GitHub account to create repositories and host your Angular app on GitHub Pages.
-
-3. Node.js and npm
-Make sure Node.js and npm (Node Package Manager) are installed on your computer for development.
-
-Step-by-Step Guide to Host Your Angular App on GitHub Pages
-Creating a single-page application with Angular
-To create a single-page application (SPA) with Angular, you'll use a tool called Angular CLI. It helps with setting up and managing Angular projects. If you already have an Angular app ready, you can skip to the next part.
-
-Here's how to install Angular CLI:
-
-Open your terminal or command prompt.
-
-Type the following command and press Enter:
-
-npm install -g @angular/cli
-This command installs Angular CLI globally on your computer. Once it's done, you're ready to create your Angular app.
-
-Now, to create your Angular app, you'll use Angular CLI again. Here's what you need to do:
-
-Open your terminal or command prompt.
-
-Type the following command:
-Web applications can be built in different ways. One common approach is to have multiple pages, which often means tightly coupled the front and back ends. Think of it like building a book with each page connected to the others.
-
-On the other hand, there's the single-page approach, where the front end and the back end are more separate. It's like having a front and back cover with all the pages inside, but they're not glued together.
-
-Single-page applications are popular because they're easier to maintain, offer better user experiences, and handle caching well. To build them, developers use frameworks like Angular, React, Svelte, or Vue.js.
-
-But once you've built your single-page app, you need to put it somewhere so people can access it on the internet. You could set up your own server, but that can be complicated. Or you can use a service like GitHub Pages, which is free and easy to use.
-
-Introduction to GitHub Pages
-GitHub Pages is a website hosting service provided by GitHub, a popular platform for hosting software development projects using Git. It allows users to host websites directly from their GitHub repositories.
-
-This service is particularly useful for developers, as it seamlessly integrates with their existing GitHub workflow and provides free hosting for personal and project websites. GitHub Pages is a free service from GitHub that lets developers turn their code into websites.
-
-Basically, if you have HTML files, JavaScript, and CSS files for a website stored in a GitHub repository, you can make those files public so anyone can see your site.
-
-One cool thing about GitHub Pages is that it works seamlessly with other GitHub features. For example, you can use GitHub Actions to run tests on your website code.
-
-Plus, GitHub Pages gives you a free web address that ends in ".github.io". If you already have your own domain name, you can use that instead.
-
-Prerequisites
-Before we dive into the Angular web hosting process, make sure you have the following prerequisites:
-
-1. Basic understanding of Angular
-Familiarity with Angular framework and Angular CLI is essential for building Angular applications.
-
-2. GitHub Account
-You'll need a GitHub account to create repositories and host your Angular app on GitHub Pages.
-
-3. Node.js and npm
-Make sure Node.js and npm (Node Package Manager) are installed on your computer for development.
-
-Step-by-Step Guide to Host Your Angular App on GitHub Pages
-Creating a single-page application with Angular
-To create a single-page application (SPA) with Angular, you'll use a tool called Angular CLI. It helps with setting up and managing Angular projects. If you already have an Angular app ready, you can skip to the next part.
-
-Here's how to install Angular CLI:
-
-Open your terminal or command prompt.
-
-Type the following command and press Enter:
-
-npm install -g @angular/cli
-This command installs Angular CLI globally on your computer. Once it's done, you're ready to create your Angular app.
-
-Now, to create your Angular app, you'll use Angular CLI again. Here's what you need to do:
-
-Open your terminal or command prompt.
-
-Type the following command:
+** Vytvoření jednostránkové Angular webové aplikace
