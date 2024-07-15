@@ -29,7 +29,10 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.sass"],
+            "styles": [
+              "src/styles.sass",
+              "node_modules/highlight.js/styles/nord.css"
+            ],
             "scripts": []
           },
           "configurations": {

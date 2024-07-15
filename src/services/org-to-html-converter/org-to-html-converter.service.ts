@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import hljs from 'highlight.js';
 
 export interface IPlaceholderSubstitution {
   placeholder: string;
@@ -10,15 +11,15 @@ export interface IPlaceholderSubstitution {
 })
 export class OrgToHtmlConverterService {
   private tags = {
-    '#+title:': { htmlTag: 'h1 class="text-6xl"' },
+    '#+title:': { htmlTag: 'h1 class="text-6xl font-bold"' },
     '#+author:': {
       htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-blue-300"',
     },
     '#+date:': {
       htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-blue-300"',
     },
-    '* ': { htmlTag: 'h1 class="text-4xl"' },
-    '** ': { htmlTag: 'h2 class="text-2xl"' },
+    '* ': { htmlTag: 'h1 class="text-4xl my-6 font-bold"' },
+    '** ': { htmlTag: 'h2 class="text-2xl my-4 font-bold"' },
     '- ': { htmlTag: 'li' },
   };
 
@@ -48,12 +49,11 @@ export class OrgToHtmlConverterService {
         `<a href="${g1}" target="_blank" class="text-rose-600 hover:underline">${g2}</a>`;
       line = line.replace(orgLinkPattern, replacer);
 
-      // Check for code pattern and replace it with HTML code tag
+      // Check for code pattern and replace it with HTML code tag with highlighting
       const codePattern = /~(.*?)~/g;
-      if (codePattern.test(line)) {
-        const replacerCode = (_: string, g1: string) => `${g1}`;
-        line = line.replace(codePattern, replacerCode);
-      }
+      const replacerCode = (_: string, g1: string) =>
+        `<pre class="hljs p-4 rounded-xl"><code>${hljs.highlightAuto(g1).value}</code></pre>`;
+      line = line.replace(codePattern, replacerCode);
 
       for (const tag in this.tags) {
         if (line.startsWith(tag)) {
@@ -78,9 +78,9 @@ export class OrgToHtmlConverterService {
         return divTag;
       }
 
-      //skip BEGIN_SRC html and #+END_SRC (html inside will be added in any case)
-      if (line == '#+BEGIN_SRC html' || line == '#+END_SRC') {
-        return '';
+      //comments (just print them)
+      if (line.startsWith('# ')) {
+        return line.slice(2);
       }
 
       return line;

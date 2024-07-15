@@ -1,12 +1,8 @@
 #+title:  Publikování Angular webové aplikace do Github Pages
-#+BEGIN_SRC html
-<div class="flex gap-x-1">
-#+END_SRC
+# <div class="flex gap-x-1 mt-2">
 #+author: Radek Šťasta
 #+date:   {{lastModified}}
-#+BEGIN_SRC html
-</div>
-#+END_SRC
+# </div>
 
 * Úvod
 
