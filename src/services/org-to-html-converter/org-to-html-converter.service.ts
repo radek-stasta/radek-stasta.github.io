@@ -45,10 +45,9 @@ export class OrgToHtmlConverterService {
     }
 
     const htmlLines = lines.map((line, index) => {
-      // Check for bold text patter and replace it with HTML tag with bold text
-      const boldPattern = /\*(.*?)\*/g;
-      const replacerBold = (_: string, g1: string) =>
-        `<span class="font-bold">${g1}</span>`;
+// Check for bold text patter and replace it with HTML tag with bold text
+      const boldPattern = /(?<!^)\*(.*?)\*/g;
+      const replacerBold = (_: string, g1: string) => `<span class="font-bold">${g1}</span>`;
       line = line.replace(boldPattern, replacerBold);
 
       // Check for org link pattern and replace it with HTML anchor tag
@@ -77,7 +76,7 @@ export class OrgToHtmlConverterService {
       // Check if line ends a code block
       if (inCodeBlock && !line.startsWith('~')) {
         inCodeBlock = false;
-        const blockToReplace = `<pre class="hljs p-4 rounded-xl"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
+        const blockToReplace = `<pre class="hljs p-4 rounded-xl mb-4"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
         codeBlockBuffer = '';
         return blockToReplace;
       }
