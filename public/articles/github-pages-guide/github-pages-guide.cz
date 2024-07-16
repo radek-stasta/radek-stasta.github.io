@@ -33,7 +33,24 @@ jako jeho zdrojové soubory.
 ** Vytvoření jednostránkové Angular webové aplikace
 
 Nejprve vytvoříme jednoduchou jednostránkovou webovou aplikaci pomocí Angular CLI. Tento nástroj nám umožní vytvořit
-jednoduchý projekt v Angularu a také vytvoří pro tento projekt lokální Git repozitář. Pokud v systému Angular CLI není
-nainstalovaný, je možné ho nainstalovat pomocí příkazu
+jednoduchý projekt v Angularu a také vytvoří pro tento projekt lokální Git repozitář. Pokud není v systému Angular CLI
+dostupný, je možné ho nainstalovat pomocí příkazu:
 
 ~npm install -g @angular/cli~
+
+Novou aplikaci vytvoříme v aktuálním adresáři pomocí příkazu:
+
+~ng new my-website~
+
+Po spuštění příkazu se zobrazí jednoduchý průvodce pro vytvoření nové aplikace. Pro tento návod není důležité, jaké nastavení
+se zvolí. Pro formát kaskádových stylů je možné zvolit CSS a při dotazu na povolení SSR a SSG zvolit možnost N. Namísto *my-website*
+je možné zvolit jakékoliv jiné jméno aplikace.
+
+Nyní můžeme vyzkoušet, že naše nová aplikace funguje, pomocí příkazu *ng serve* v adresáři aplikace:
+
+~cd my-website # nebo jiný zvolený název aplikace~
+~ng serve --open~
+
+Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace
+
+[[https://upload.wikimedia.org/wikipedia/commons/5/5d/Konigsberg_bridges.png]]

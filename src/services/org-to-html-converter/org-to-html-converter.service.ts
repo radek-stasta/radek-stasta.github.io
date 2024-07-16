@@ -28,6 +28,8 @@ export class OrgToHtmlConverterService {
     placeholderSubstitutions?: IPlaceholderSubstitution[],
   ) {
     let divStarted = false;
+    let inCodeBlock = false;
+    let codeBlockBuffer = '';
     const lines = orgText.split('\n');
 
     //look through lines and for each placeholderSubstitution replace placeholder with substitution
@@ -43,18 +45,44 @@ export class OrgToHtmlConverterService {
     }
 
     const htmlLines = lines.map((line, index) => {
+      // Check for bold text patter and replace it with HTML tag with bold text
+      const boldPattern = /\*(.*?)\*/g;
+      const replacerBold = (_: string, g1: string) =>
+        `<span class="font-bold">${g1}</span>`;
+      line = line.replace(boldPattern, replacerBold);
+
       // Check for org link pattern and replace it with HTML anchor tag
       const orgLinkPattern = /\[\[(.*?)]\[(.*?)]]/g;
       const replacer = (_: string, g1: string, g2: string) =>
         `<a href="${g1}" target="_blank" class="text-rose-600 hover:underline">${g2}</a>`;
       line = line.replace(orgLinkPattern, replacer);
 
-      // Check for code pattern and replace it with HTML code tag with highlighting
-      const codePattern = /~(.*?)~/g;
-      const replacerCode = (_: string, g1: string) =>
-        `<pre class="hljs p-4 rounded-xl"><code>${hljs.highlightAuto(g1).value}</code></pre>`;
-      line = line.replace(codePattern, replacerCode);
+      // Check for remaining org link pattern and consider it as an image link
+      const orgImageLinkPattern = /\[\[(.*?)]]/g;
+      const replacerImage = (_: string, g1: string) => {
+        return `<img src="${g1}" class="h-auto max-w-full"/>`;
+      };
+      line = line.replace(orgImageLinkPattern, replacerImage);
 
+      // Check for code pattern and replace it with HTML code tag with highlighting
+      // Check if line starts a code block
+      const codePattern = /~(.*?)~/g;
+      if (line.startsWith('~')) {
+        inCodeBlock = true;
+        codeBlockBuffer += `${line.match(codePattern)![0]}\n`;
+        codeBlockBuffer = codeBlockBuffer.replace(/~/g, '');
+        return;
+      }
+
+      // Check if line ends a code block
+      if (inCodeBlock && !line.startsWith('~')) {
+        inCodeBlock = false;
+        const blockToReplace = `<pre class="hljs p-4 rounded-xl"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
+        codeBlockBuffer = '';
+        return blockToReplace;
+      }
+
+      // Replace specific tags
       for (const tag in this.tags) {
         if (line.startsWith(tag)) {
           const key = tag as keyof typeof this.tags;

@@ -18,8 +18,9 @@ export class ArticleViewerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const articleResult =
-      await this._fileReaderService.readFile('github-pages.cz');
+    const articleResult = await this._fileReaderService.readFile(
+      'articles/github-pages-guide/github-pages-guide.cz',
+    );
     this.articleHtml = this._orgToHtmlConverterService.convert(
       articleResult.text,
       [
