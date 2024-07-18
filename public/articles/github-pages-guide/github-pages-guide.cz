@@ -117,3 +117,24 @@ příkazový řádek za pomocí uživatelského jména a hesla. Pokud všechno p
 soubory v rozhranní GitHubu.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/007.png]]
+
+** Vytvoření zkompilovaných stránek pro publikaci pomocí balíčku angular-cli-ghpages
+
+Pro zjedonušení kompilování zdrojového kódu aplikace do statických souborů, které bude možné publikovat do GitHub pages
+využijeme balíček [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]]. Tento balíček zkompiluje
+naše zdrojové soubory a vytvoří v repozitáři novou větev, do které nahraje výsledné soubory. Nejprve je nutné přidat tento
+balíček do aplikace pomocí příkazu Angular CLI (v adresáři aplikace):
+
+~ng add angular-cli-ghpages~
+
+Tuto změnu můžeme také nahrát do repozitáře pomocí:
+
+~git add -A~
+~git commit -m "Added angular-cli-ghpages"~
+~git push~
+
+Nyní stačí v adresáři s aplikací spustit následující příkaz a *angular-cli-ghpages* se již postará o vše ostatní:
+
+~ng deploy --repo=https://github.com/[uživatelské jméno]/[název repozitáře].git --base-href=/~
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/008.png]]
