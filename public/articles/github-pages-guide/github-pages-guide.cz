@@ -68,3 +68,40 @@ jiné jméno repozitáře, bude dostupný na adrese *[uživatelské jméno].gith
 je třeba poznamenat si adresu repozitáře s příponou .git, kterou budeme potřebovat v následujícím kroku.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/003.png]]
+
+** Vytvoření personal access tokenu na GitHubu
+
+Pokud již access token máte, nebo pokud nahráváte na GitHub jiným způsobem (přes SSH, GitHub CLI, rozšíření ve VS Code...),
+můžete tento krok přeskočit.
+
+Pro nahrání souborů na GitHub je možné využít personal access token. Tento token pak využijeme při nahrávání lokálních souborů
+na GitHub pro autorizaci který účet soubory nahrává. Pro vytvoření access tokenu klikneme na obrázek profilu na GitHubu a
+následně zvolíme *Settings*. V levém sloupci s nabídkou naspodu *Developer Settings* a v další nabídce *Personal access tokens*
+a možnost *Fine-grained token*. Zde klikneme na tlačítko *Generate new token*.
+
+Zde vyplníme název tokenu, ostatní nastavení můžou zůstat předvyplněné a ve spodní části formuláře klikneme na tlačítko *Generate token*
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/004.png]]
+
+Na následující obrazovce se zobrazí vygenerovaný access token a je *nutné* si tento access token zkopírovat a uložit, protože
+jindy už není možné si tento token z bezpečnostních důvodů znovu zobrazit. Bylo by třeba vygenerovat access token znovu.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
+
+** Nahrání lokálních souborů do GitHub repozitáře
+
+Jak již bylo zmíněno, Angular CLI pro naši aplikaci automaticky vytvořil i lokální Git repozitář. Nyní je potřeba tento
+repozitář propojit s nově vytvořeným repozitářem na GitHubu. K tomu nám poslouží následující příkazy spuštěné v adresáři
+Angular projektu (git config příkazy jsou potřeba pouze pokud nemáte uživatelské jméno a email pro Git již nastavené globálně):
+
+~git remote add origin https://github.com/[uživatelské jméno]/[název repozitáře].git~
+~git config --global user.name "[uživatelské jméno]"~
+~git config --global user.email "[email]"~
+~git commit -m "[název commitu]"~
+
+Konkrétní příklad pak může vypadat například takto:
+
+~git remote add origin https://github.com/radek-stasta-dev/radek-stasta-dev.github.io.git~
+~git config --global user.name "Radek Šťasta"~
+~git config --global user.email "rstasta@icloud.com"~
+~git commit -m "Initial commit"~
