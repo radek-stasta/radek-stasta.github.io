@@ -143,3 +143,17 @@ Pokud vše proběhlo v pořádku, *angular-cli-ghpages* vytvořil v GitHubu novo
 soubory webových stránek.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/009.png]]
+
+** Nastavení větve se soubory pro GitHub Pages v GitHubu
+
+Poslední co zbývá, je nastavit v GitHubu, jaká větev se má použít pro GitHub Pages. V horních záložkách v repozitáři zvolíme
+možnost *Settings* a následně v levém menu *Pages*. V základním nastavení je použita větev master, kterou je potřeba
+přepnout na nově vytvořenou *gh-pages* a stisknout tlačítko *Save*.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/010.png]]
+
+GitHub po chvíli tuto změnu zaregistruje, přepne větve a pokud klikneme na tlačítko *Visit site* v horní části obrazovky,
+nebo otevřeme prohlížeč na adrese webových stránek, měly by se zobrazit stejné stránky, jako ty, které jsme testovali lokálně,
+nyní však již vystavené na webu přes GitHub Pages.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/011.png]]
