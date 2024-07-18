@@ -157,3 +157,12 @@ nebo otevřeme prohlížeč na adrese webových stránek, měly by se zobrazit s
 nyní však již vystavené na webu přes GitHub Pages.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/011.png]]
+
+* Závěr
+
+V tomto návodu jsme si ukázali, jak vytvořit základní Angular aplikaci přes Angular CLI a jak tuto aplikaci publikovat
+na webu za pomoci GitHub Pages. Tento přístup má svá omezení - to nejdůležitejší je limit 1 GB pro soubory v GitHub Pages
+a limit 10 kompilací za hodinu. To by ale například pro soukromé účely mělo ve většině případů stačit.
+Typickým příkladem práce je tedy lokální úprava zdrojových souborů v master větvi, kde můžeme vytvářet desítky commitů
+a poté, když jsme spokojeni s výsledkem, spustit příkaz *ng deploy*, který zkompiluje zdrojové soubory a nasadí nový
+web. A ano, ten kdo je všímavý jistě zjistil, že i tyto stránky jsou na webu publikovány přesně tímto způsobem.
