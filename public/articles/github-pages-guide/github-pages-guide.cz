@@ -110,3 +110,10 @@ Konkrétní příklad pak může vypadat například takto:
 ~git config --global user.email "rstasta@icloud.com"~
 ~git commit -m "Initial commit"~
 ~git push -u origin master~
+
+Po zavolání příkazu *git push* je nutné vyplnit uživatelské jméno pro přístup do GitHubu (email) a heslo. V případě hesla
+je nutné vyplnit (zkopírovat) personal access token, protože GitHub od roku 2021 nepodporuje nahrávání souborů přes
+příkazový řádek za pomocí uživatelského jména a hesla. Pokud všechno proběhlo v pořádku, můžeme zkontrolovat nově nahrané
+soubory v rozhranní GitHubu.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/007.png]]
