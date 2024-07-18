@@ -72,11 +72,13 @@ export class OrgToHtmlConverterService {
         inCodeBlock = true;
         codeBlockBuffer += `${line.match(codePattern)![0]}\n`;
         codeBlockBuffer = codeBlockBuffer.replace(/~/g, '');
-        return;
+        if (lines[index + 1].startsWith('~')) {
+          return;
+        }
       }
 
       // Check if line ends a code block
-      if (inCodeBlock && !line.startsWith('~')) {
+      if (inCodeBlock && !lines[index + 1].startsWith('~')) {
         inCodeBlock = false;
         const blockToReplace = `<pre class="hljs p-4 rounded-xl mb-4"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
         codeBlockBuffer = '';
