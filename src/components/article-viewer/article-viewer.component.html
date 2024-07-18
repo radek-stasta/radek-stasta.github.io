@@ -6,5 +6,9 @@
   ></div>
 
   <!-- SIDE PANEL -->
-  <div>Test</div>
+  <div>
+    @for (line of summaryLines; track line) {
+      <div [innerHTML]="line"></div>
+    }
+  </div>
 </div>

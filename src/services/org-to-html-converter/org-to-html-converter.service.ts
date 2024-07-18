@@ -30,6 +30,7 @@ export class OrgToHtmlConverterService {
     let divStarted = false;
     let inCodeBlock = false;
     let codeBlockBuffer = '';
+    let hTagID = 0;
     const lines = orgText.split('\n');
 
     //look through lines and for each placeholderSubstitution replace placeholder with substitution
@@ -45,9 +46,10 @@ export class OrgToHtmlConverterService {
     }
 
     const htmlLines = lines.map((line, index) => {
-// Check for bold text patter and replace it with HTML tag with bold text
+      // Check for bold text patter and replace it with HTML tag with bold text
       const boldPattern = /(?<!^)\*(.*?)\*/g;
-      const replacerBold = (_: string, g1: string) => `<span class="font-bold">${g1}</span>`;
+      const replacerBold = (_: string, g1: string) =>
+        `<span class="font-bold">${g1}</span>`;
       line = line.replace(boldPattern, replacerBold);
 
       // Check for org link pattern and replace it with HTML anchor tag
@@ -85,7 +87,13 @@ export class OrgToHtmlConverterService {
       for (const tag in this.tags) {
         if (line.startsWith(tag)) {
           const key = tag as keyof typeof this.tags;
-          return `<${this.tags[key].htmlTag}>${line.slice(tag.length)}</${this.tags[key].htmlTag.split(' ')[0]}>`;
+
+          // Check if current tag is h and add id
+          const tagWithId = this.tags[key].htmlTag.startsWith('h')
+            ? `${this.tags[key].htmlTag} id="hTag${hTagID++}"`
+            : this.tags[key].htmlTag;
+
+          return `<${tagWithId}>${line.slice(tag.length)}</${tagWithId.split(' ')[0]}>`;
         }
       }
 
