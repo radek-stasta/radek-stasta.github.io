@@ -138,3 +138,8 @@ Nyní stačí v adresáři s aplikací spustit následující příkaz a *angula
 ~ng deploy --repo=https://github.com/[uživatelské jméno]/[název repozitáře].git --base-href=/~
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/008.png]]
+
+Pokud vše proběhlo v pořádku, *angular-cli-ghpages* vytvořil v GitHubu novou větev gh-pages, do které nahrál zkompilované
+soubory webových stránek.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/009.png]]
