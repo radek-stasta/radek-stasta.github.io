@@ -79,14 +79,17 @@ na GitHub pro autorizaci který účet soubory nahrává. Pro vytvoření access
 následně zvolíme *Settings*. V levém sloupci s nabídkou naspodu *Developer Settings* a v další nabídce *Personal access tokens*
 a možnost *Fine-grained token*. Zde klikneme na tlačítko *Generate new token*.
 
-Zde vyplníme název tokenu, ostatní nastavení můžou zůstat předvyplněné a ve spodní části formuláře klikneme na tlačítko *Generate token*
+Zde vyplníme název tokenu, a zvolíme možnost *All repositories* v přístupu k repozitářům (případně *Only select repositories*, pokud
+chceme omezit na které repozitáře nastavíme práva). Následně v sekci *Repository permissions* nastavíme právo *Contents* na
+hodnotu *Access: Read and Write* a stiskneme tlačítko *Generate token*
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/004.png]]
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
 
-Na následující obrazovce se zobrazí vygenerovaný access token a je *nutné* si tento access token zkopírovat a uložit, protože
+Na následující obrazovce se zobrazí vygenerovaný access token a je *NUTNÉ* si tento access token zkopírovat a uložit, protože
 jindy už není možné si tento token z bezpečnostních důvodů znovu zobrazit. Bylo by třeba vygenerovat access token znovu.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/006.png]]
 
 ** Nahrání lokálních souborů do GitHub repozitáře
 
@@ -98,6 +101,7 @@ Angular projektu (git config příkazy jsou potřeba pouze pokud nemáte uživat
 ~git config --global user.name "[uživatelské jméno]"~
 ~git config --global user.email "[email]"~
 ~git commit -m "[název commitu]"~
+~git push -u origin master~
 
 Konkrétní příklad pak může vypadat například takto:
 
@@ -105,3 +109,4 @@ Konkrétní příklad pak může vypadat například takto:
 ~git config --global user.name "Radek Šťasta"~
 ~git config --global user.email "rstasta@icloud.com"~
 ~git commit -m "Initial commit"~
+~git push -u origin master~
