@@ -13,10 +13,10 @@ export class OrgToHtmlConverterService {
   private tags = {
     '#+title:': { htmlTag: 'h1 class="text-6xl font-bold"' },
     '#+author:': {
-      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-blue-300"',
+      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
     },
     '#+date:': {
-      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-blue-300"',
+      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
     },
     '* ': { htmlTag: 'h1 class="text-4xl my-6 font-bold"' },
     '** ': { htmlTag: 'h2 class="text-2xl my-4 font-bold"' },
@@ -55,7 +55,7 @@ export class OrgToHtmlConverterService {
       // Check for org link pattern and replace it with HTML anchor tag
       const orgLinkPattern = /\[\[(.*?)]\[(.*?)]]/g;
       const replacer = (_: string, g1: string, g2: string) =>
-        `<a href="${g1}" target="_blank" class="text-rose-600 hover:underline">${g2}</a>`;
+        `<a href="${g1}" target="_blank" class="text-rose-500 hover:underline">${g2}</a>`;
       line = line.replace(orgLinkPattern, replacer);
 
       // Check for remaining org link pattern and consider it as an image link

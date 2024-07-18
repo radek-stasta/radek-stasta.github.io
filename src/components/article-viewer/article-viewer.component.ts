@@ -66,7 +66,8 @@ export class ArticleViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.summaryLines = Array.from(headings).map((h) => {
       const id = h.id;
       const text = h.textContent || '';
-      return `<a href="#${id}">${text}</a>`;
+      const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
+      return `<div class="${indentation}"><a class="hover:text-rose-500" href="#${id}">${text}</a></div>`;
     });
   }
 
