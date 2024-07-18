@@ -54,3 +54,10 @@ Nyní můžeme vyzkoušet, že naše nová aplikace funguje, pomocí příkazu *
 Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/001.png]]
+
+** Vytvoření repozitáře na GitHubu
+
+Nyní, když máme připravenou webovou aplikaci, je potřeba vytvořit repozitář na GitHubu, kam nejprve nahrajeme zdrojové kódy
+a kde následně také vygenerujeme zkompilované soubory, které se použijí pro publikování přes GitHub Pages.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/002.png]]
