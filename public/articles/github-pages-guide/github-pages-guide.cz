@@ -1,14 +1,12 @@
 #+title:  Publikování Angular webové aplikace do Github Pages
-# <div class="flex gap-x-1 mt-2">
 #+author: Radek Šťasta
 #+date:   {{lastModified}}
-# </div>
 
 * Úvod
 
 Při vytváření webových stránek je nutným požadavkem vystavit tyto stránky na internet, aby byly dostupné světu na zvolené
-webovou adrese. Pro tyto účely slouží řada webhostingových poskytovatelů, poskytujících služby jak zdarma, tak za poplatky.
-V dřívějších dobách byl klasický scénář vytváření webu takkový, že si člověk vytvořil většinou vícestránkový web (tedy
+webové adrese. Pro tyto účely slouží řada webhostingů, poskytujících služby jak zdarma, tak za poplatky.
+V dřívějších dobách byl klasický scénář vytváření webu takový, že si člověk vytvořil většinou vícestránkový web (tedy
 web skládající se z jednotlivých html stránek jako Domů, Kontakt, atd.), zaplatil si doménu a na tuto doménu nahrál
 potřebné soubory. V dnešní době je však běžné mít jednostránkový web (vytvořený například ve frameworcích jako je
 Angular, React, Vue). Záleží samozřejmě na použití. Oba přístupy mají své pro a proti. Navíc je nyní již běžné mít
@@ -18,8 +16,8 @@ každého zdarma (pro základní použití) a také nabízí službu Github Page
 Github Pages nabízí to samé jako ostatní hostingoví poskytovatelé. To znamená publikování webových stránek pod webovou
 adresou projektu v Githubu. V tomto článku se konktétně zaměříme na to, jak vytvořit Angular webovou aplikaci a tuto pomocí
 Github Pages publikovat na webu. Výhodou tohoto přístupu je skutečnost, že máte zdrojové kódy webové aplikace uložené v projektu v
-Githubu, ze kterých se například pomocí balíčku gh-pages vytvoří finální web a ten je verzován ve stejném Github projetku,
-jako jeho zdrojové soubory.
+Githubu, ze kterých se například pomocí balíčku [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]]
+vytvoří finální web a ten je verzován ve stejném Github projetku, jako jeho zdrojové soubory.
 
 * Požadavky
 
@@ -51,7 +49,7 @@ Nyní můžeme vyzkoušet, že naše nová aplikace funguje, pomocí příkazu *
 ~cd my-website # nebo jiný zvolený název aplikace~
 ~ng serve --open~
 
-Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace
+Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/001.png]]
 
@@ -81,7 +79,7 @@ a možnost *Fine-grained token*. Zde klikneme na tlačítko *Generate new token*
 
 Zde vyplníme název tokenu, a zvolíme možnost *All repositories* v přístupu k repozitářům (případně *Only select repositories*, pokud
 chceme omezit na které repozitáře nastavíme práva). Následně v sekci *Repository permissions* nastavíme právo *Contents* na
-hodnotu *Access: Read and Write* a stiskneme tlačítko *Generate token*
+hodnotu *Access: Read and Write* a stiskneme tlačítko *Generate token*.
 
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/004.png]]
 [[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
@@ -100,7 +98,7 @@ Angular projektu (git config příkazy jsou potřeba pouze pokud nemáte uživat
 ~git remote add origin https://github.com/[uživatelské jméno]/[název repozitáře].git~
 ~git config --global user.name "[uživatelské jméno]"~
 ~git config --global user.email "[email]"~
-~git commit -m "[název commitu]"~
+~git commit -m "[text commitu]"~
 ~git push -u origin master~
 
 Konkrétní příklad pak může vypadat například takto:

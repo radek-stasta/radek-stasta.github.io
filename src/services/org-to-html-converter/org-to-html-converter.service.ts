@@ -18,8 +18,8 @@ export class OrgToHtmlConverterService {
     '#+date:': {
       htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
     },
-    '* ': { htmlTag: 'h1 class="text-4xl my-6 font-bold"' },
-    '** ': { htmlTag: 'h2 class="text-2xl my-4 font-bold"' },
+    '* ': { htmlTag: 'h1 class="text-4xl my-8 font-bold"' },
+    '** ': { htmlTag: 'h2 class="text-2xl my-6 font-bold"' },
     '- ': { htmlTag: 'li' },
   };
 
@@ -107,7 +107,7 @@ export class OrgToHtmlConverterService {
 
         if (index !== lines.length - 1) {
           divStarted = true;
-          divTag += '<div class="mb-4 text-justify">';
+          divTag += '<div class="my-8 text-justify">';
         }
 
         return divTag;

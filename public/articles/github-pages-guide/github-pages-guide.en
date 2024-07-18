@@ -1,0 +1,165 @@
+#+title:  Publishing an Angular Web Application to GitHub Pages
+#+author: Radek Šťasta
+#+date:   {{lastModified}}
+
+* Introduction
+
+When creating websites, a necessary requirement is to publish them on the internet so that they are accessible to the world
+at a chosen web address. For these purposes, there are many web hosting providers that offer services both free and for a fee.
+In earlier times, the classic scenario of creating a website was such that a person usually created a multi-page website
+(i.e., a website consisting of individual HTML pages like Home, Contact, etc.), paid for a domain, and uploaded the
+necessary files to this domain. Nowadays, it is common to have a single-page web application (created, for example, in
+frameworks like Angular, React, Vue). Of course, it depends on the use case. Both approaches have their pros and cons.
+Moreover, it is now common to have the source code backed up by a version control tool such as Git. The GitHub web service
+offers this version control for free (for basic use) and also offers the GitHub Pages service, which this article focuses on.
+
+GitHub Pages offers the same thing as other hosting providers: publishing web pages under the project's web address on GitHub.
+In this article, we will specifically focus on how to create an Angular web application and publish it on the web using GitHub Pages.
+The advantage of this approach is the fact that you have the source code of the web application stored in a project on GitHub,
+from which the final website is created using, for example, the [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]]
+package and is versioned in the same GitHub project as its source files.
+
+* Requirements
+
+- An account on [[https://github.com/][GitHub]], where the project will be created and subsequently published through GitHub Pages
+- Installed version control tool [[https://git-scm.com/][Git]]
+- Installed [[https://nodejs.org/][Node.js]] and npm (Node Package Manager)
+- Basic understanding of working with the command line in the chosen operating system. This guide was created in Linux, but the commands should not differ in Windows.
+
+* Guide to Publishing an Angular Application to GitHub Pages
+
+** Creating a Single-Page Angular Web Application
+
+First, we will create a simple single-page web application using Angular CLI. This tool allows us to create a simple project
+in Angular and also creates a local Git repository for this project. If Angular CLI is not available on the system,
+it can be installed using the command:
+
+~npm install -g @angular/cli~
+
+We create a new application in the current directory with the command:
+
+~ng new my-website~
+
+After running the command, a simple guide will appear to create a new application. For this guide, it doesn't matter which
+settings are chosen. For the CSS format, you can choose CSS, and when asked about enabling SSR and SSG, select No.
+Instead of *my-website*, you can choose any other name for the application.
+
+Now we can test that our new application works using the command *ng serve* in the application directory:
+
+~cd my-website # or another chosen application name~
+~ng serve --open~
+
+If everything went well, a web browser should open with the content of the demo application.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/001.png]]
+
+** Creating a Repository on GitHub
+
+Now that we have a prepared web application, it is necessary to create a repository on GitHub where we will first upload
+the source code and then generate the compiled files that will be used for publishing through GitHub Pages.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/002.png]]
+
+If we want the web pages to be directly available under the user account's address, we need to create a repository in the form *[username].github.io*
+(e.g., as shown in the image above, the pages will be subsequently available at radek-stasta-dev.github.io). If we choose any
+other repository name, it will be available at *[username].github.io/[repository name]*. After creating the repository,
+we need to note down the repository address with the .git extension, which we will need in the next step.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/003.png]]
+
+** Creating a Personal Access Token on GitHub
+
+If you already have an access token or if you upload to GitHub using another method (via SSH, GitHub CLI, VS Code extension...),
+you can skip this step.
+
+To upload files to GitHub, a personal access token can be used. This token will be used to authorize the account uploading
+the files when uploading local files to GitHub. To create an access token, click on the profile picture on GitHub and
+then select *Settings*. In the left column with the menu select *Developer Settings* at the bottom and in the next
+menu *Personal access tokens* and the *Fine-grained token* option. Click on the *Generate new token* button.
+
+Fill in the token name and select the *All repositories* option for repository access (or *Only select repositories*
+if we want to restrict which repositories we set permissions for). Then in the *Repository permissions* section,
+set the *Contents* permission to *Access: Read and Write* and press the *Generate token* button.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/004.png]]
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
+
+On the next screen, the generated access token will be displayed, and it is *NECESSARY* to copy and save this access token
+because it cannot be displayed again for security reasons. It would be necessary to generate the access token again.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/006.png]]
+
+** Uploading Local Files to the GitHub Repository
+
+As already mentioned, Angular CLI automatically created a local Git repository for our application. Now it is necessary to
+link this repository with the newly created repository on GitHub. The following commands run in the Angular project directory
+will help us with this (the git config commands are only necessary if you don't have a username and email for Git already set globally):
+
+~git remote add origin https://github.com/[username]/[repository name].git~
+~git config --global user.name "[username]"~
+~git config --global user.email "[email]"~
+~git commit -m "[commit message]"~
+~git push -u origin master~
+
+A specific example might look like this:
+
+~git remote add origin https://github.com/radek-stasta-dev/radek-stasta-dev.github.io.git~
+~git config --global user.name "Radek Šťasta"~
+~git config --global user.email "rstasta@icloud.com"~
+~git commit -m "Initial commit"~
+~git push -u origin master~
+
+After calling the *git push* command, it is necessary to fill in the username for GitHub access (email) and the password.
+For the password, it is necessary to fill in (copy) the personal access token, as GitHub has not supported uploading files
+via the command line using a username and password since 2021. If everything went well, we can check the newly uploaded files in the
+GitHub interface.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/007.png]]
+
+** Creating Compiled Pages for Publication Using the angular-cli-ghpages Package
+
+To simplify the compilation of the application's source code into static files that can be published to GitHub Pages,
+we will use the [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]] package. This package will
+compile our source files and create a new branch in the repository, where the resulting files will be uploaded. First,
+it is necessary to add this package to the application using the Angular CLI command (in the application directory):
+
+~ng add angular-cli-ghpages~
+
+We can also upload this change to the repository using:
+
+~git add -A~
+~git commit -m "Added angular-cli-ghpages"~
+~git push~
+
+Now, just run the following command in the application directory, and *angular-cli-ghpages* will take care of everything else:
+
+~ng deploy --repo=https://github.com/[username]/[repository name].git --base-href=/~
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/008.png]]
+
+If everything went well, *angular-cli-ghpages* created a new gh-pages branch on GitHub, where it uploaded the compiled web page files.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/009.png]]
+
+** Setting the branch with files for GitHub Pages on GitHub
+
+The last step is to set in GitHub which branch should be used for GitHub Pages. In the top tabs in the repository,
+select *Settings* and then *Pages* in the left menu. In the default settings, the master branch is used, which needs to be
+switched to the newly created *gh-pages* branch and press the *Save* button.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/010.png]]
+
+GitHub will register this change after a while, switch the branches, and if we click on the *Visit site* button at the top
+of the screen or open the browser at the web page address, the same pages as those we tested locally should be displayed,
+now published on the web via GitHub Pages.
+
+[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/011.png]]
+
+* Conclusion
+
+In this guide, we showed how to create a basic Angular application via Angular CLI and how to publish this application on
+the web using GitHub Pages. This approach has its limitations — the most important being the 1 GB file limit for GitHub Pages a
+nd the limit of 10 builds per hour. However, this should suffice for private purposes in most cases. A typical workflow
+is to make local changes to the source files in the master branch, where we can create dozens of commits and then,
+when we are satisfied with the result, run the *ng deploy* command, which compiles the source files and deploys the new website.
+And yes, those who are observant will surely notice that these pages are also published on the web in exactly this way.
