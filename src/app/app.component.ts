@@ -1,7 +1,14 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
 import { CommonModule } from '@angular/common';
+import { DataService } from '../services/data/data.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +17,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass',
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   @ViewChild('stickyHeader', { static: false }) headerElement!: ElementRef;
   public isHeaderSticky = false;
+
+  constructor(private _dataService: DataService) {}
+
+  ngAfterViewInit() {
+    this._dataService.headerHeight =
+      this.headerElement.nativeElement.scrollHeight;
+  }
 
   get headerClasses() {
     return {
