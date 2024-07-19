@@ -25,11 +25,11 @@ import { MenuDropdownComponent } from '../components/menu-dropdown/menu-dropdown
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('stickyHeader', { static: false }) headerElement!: ElementRef;
-  public isHeaderSticky = false;
-  public isArticleDropdownVisible = false;
+  protected isHeaderSticky = false;
+  protected isArticleDropdownVisible = false;
   private hideArticleDropdownTimeoutId?: number;
 
-  constructor(private _dataService: DataService) {}
+  constructor(protected _dataService: DataService) {}
 
   ngAfterViewInit() {
     this._dataService.headerHeight =

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
   private _headerHeight = 0;
+  private _selectedLanguage = 'en';
 
   constructor() {
     // nothing to do
@@ -16,5 +17,13 @@ export class DataService {
 
   get headerHeight() {
     return this._headerHeight;
+  }
+
+  set selectedLanguage(language) {
+    this._selectedLanguage = language;
+  }
+
+  get selectedLanguage() {
+    return this._selectedLanguage;
   }
 }

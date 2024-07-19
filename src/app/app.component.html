@@ -4,18 +4,40 @@
   class="h-16 bg-white transition-transform ease-in-out sticky-top bg-gradient-to-r to-indigo-500 from-rose-500"
   [ngClass]="headerClasses"
 >
-  <div class="flex place-content-center items-center size-full">
-    <div class="flex flex-row gap-8 text-2xl text-white font-bold">
+  <div class="grid grid-cols-3 size-full text-2xl text-white font-bold">
+    <div>
       <a href="/">
-        <div>DOMŮ</div>
+        <img class="w-16 p-1" src="/img/myself-round.png" alt="Radek Šťasta" />
       </a>
+    </div>
+    <div class="flex place-content-center">
       <div
-        class="cursor-pointer"
+        class="cursor-pointer h-full place-content-center"
         (mouseenter)="stopArticleDropdownHiding()"
         (mouseleave)="hideArticlesDropdown()"
       >
         ČLÁNKY
       </div>
+    </div>
+    <div class="flex place-content-end items-center p-1 gap-2 text-gray-400">
+      <button
+        tabindex="0"
+        class="cursor-pointer"
+        [ngClass]="{ 'text-white': _dataService.selectedLanguage === 'cz' }"
+        (click)="_dataService.selectedLanguage = 'cz'"
+        (keydown.enter)="_dataService.selectedLanguage = 'cz'"
+      >
+        cz
+      </button>
+      <button
+        tabindex="0"
+        class="cursor-pointer"
+        [ngClass]="{ 'text-white': _dataService.selectedLanguage === 'en' }"
+        (click)="_dataService.selectedLanguage = 'en'"
+        (keydown.enter)="_dataService.selectedLanguage = 'en'"
+      >
+        en
+      </button>
     </div>
   </div>
 </div>
