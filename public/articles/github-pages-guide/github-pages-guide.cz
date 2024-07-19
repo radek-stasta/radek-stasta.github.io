@@ -51,21 +51,21 @@ Nyní můžeme vyzkoušet, že naše nová aplikace funguje, pomocí příkazu *
 
 Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/001.png]]
+[[/articles/github-pages-guide/img/001.png]]
 
 ** Vytvoření repozitáře na GitHubu
 
 Nyní, když máme připravenou webovou aplikaci, je potřeba vytvořit repozitář na GitHubu, kam nejprve nahrajeme zdrojové kódy
 a kde následně také vygenerujeme zkompilované soubory, které se použijí pro publikování přes GitHub Pages.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/002.png]]
+[[/articles/github-pages-guide/img/002.png]]
 
 Pokud chceme, aby byly webové stránky dostupné přímo pod adresou uživatelského účtu, je třeba vytvořit repozitář ve tvaru *[uživatelské jméno].github.io*
 (jako např. na obrázku výše, stánky budou následně dostupné na adrese radek-stasta-dev.github.io). Pokud zvolíme jakékoliv
 jiné jméno repozitáře, bude dostupný na adrese *[uživatelské jméno].github.io/[název repozitáře]*. Po vytvoření repozitáře
 je třeba poznamenat si adresu repozitáře s příponou .git, kterou budeme potřebovat v následujícím kroku.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/003.png]]
+[[/articles/github-pages-guide/img/003.png]]
 
 ** Vytvoření personal access tokenu na GitHubu
 
@@ -81,13 +81,13 @@ Zde vyplníme název tokenu, a zvolíme možnost *All repositories* v přístupu
 chceme omezit na které repozitáře nastavíme práva). Následně v sekci *Repository permissions* nastavíme právo *Contents* na
 hodnotu *Access: Read and Write* a stiskneme tlačítko *Generate token*.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/004.png]]
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/005.png]]
+[[/articles/github-pages-guide/img/004.png]]
+[[/articles/github-pages-guide/img/005.png]]
 
 Na následující obrazovce se zobrazí vygenerovaný access token a je *NUTNÉ* si tento access token zkopírovat a uložit, protože
 jindy už není možné si tento token z bezpečnostních důvodů znovu zobrazit. Bylo by třeba vygenerovat access token znovu.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/006.png]]
+[[/articles/github-pages-guide/img/006.png]]
 
 ** Nahrání lokálních souborů do GitHub repozitáře
 
@@ -114,7 +114,7 @@ je nutné vyplnit (zkopírovat) personal access token, protože GitHub od roku 2
 příkazový řádek za pomocí uživatelského jména a hesla. Pokud všechno proběhlo v pořádku, můžeme zkontrolovat nově nahrané
 soubory v rozhranní GitHubu.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/007.png]]
+[[/articles/github-pages-guide/img/007.png]]
 
 ** Vytvoření zkompilovaných stránek pro publikaci pomocí balíčku angular-cli-ghpages
 
@@ -135,12 +135,12 @@ Nyní stačí v adresáři s aplikací spustit následující příkaz a *angula
 
 ~ng deploy --repo=https://github.com/[uživatelské jméno]/[název repozitáře].git --base-href=/~
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/008.png]]
+[[/articles/github-pages-guide/img/008.png]]
 
 Pokud vše proběhlo v pořádku, *angular-cli-ghpages* vytvořil v GitHubu novou větev gh-pages, do které nahrál zkompilované
 soubory webových stránek.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/009.png]]
+[[/articles/github-pages-guide/img/009.png]]
 
 ** Nastavení větve se soubory pro GitHub Pages v GitHubu
 
@@ -148,13 +148,13 @@ Poslední co zbývá, je nastavit v GitHubu, jaká větev se má použít pro Gi
 možnost *Settings* a následně v levém menu *Pages*. V základním nastavení je použita větev master, kterou je potřeba
 přepnout na nově vytvořenou *gh-pages* a stisknout tlačítko *Save*.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/010.png]]
+[[/articles/github-pages-guide/img/010.png]]
 
 GitHub po chvíli tuto změnu zaregistruje, přepne větve a pokud klikneme na tlačítko *Visit site* v horní části obrazovky,
 nebo otevřeme prohlížeč na adrese webových stránek, měly by se zobrazit stejné stránky, jako ty, které jsme testovali lokálně,
 nyní však již vystavené na webu přes GitHub Pages.
 
-[[https://raw.githubusercontent.com/radek-stasta/radek-stasta.github.io/master/public/articles/github-pages-guide/img/011.png]]
+[[/articles/github-pages-guide/img/011.png]]
 
 * Závěr
 

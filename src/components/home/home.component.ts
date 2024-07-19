@@ -6,11 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass',
 })
