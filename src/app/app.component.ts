@@ -40,12 +40,16 @@ export class AppComponent implements AfterViewInit {
     if (window.scrollY >= this.headerElement.nativeElement.scrollHeight) {
       this.isHeaderSticky = true;
       this.headerElement.nativeElement.classList.add('sticky');
+      this.headerElement.nativeElement.classList.add('border-b-2');
+      this.headerElement.nativeElement.classList.add('border-black');
     } else {
       this.isHeaderSticky = false;
     }
 
     if (window.scrollY == 0) {
       this.headerElement.nativeElement.classList.remove('sticky');
+      this.headerElement.nativeElement.classList.remove('border-b-2');
+      this.headerElement.nativeElement.classList.remove('border-black');
     }
   }
 }
