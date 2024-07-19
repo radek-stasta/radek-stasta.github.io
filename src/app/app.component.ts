@@ -9,11 +9,17 @@ import { RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../services/data/data.service';
+import { MenuDropdownComponent } from '../components/menu-dropdown/menu-dropdown.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ArticleViewerComponent, CommonModule],
+  imports: [
+    RouterOutlet,
+    ArticleViewerComponent,
+    CommonModule,
+    MenuDropdownComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass',
 })

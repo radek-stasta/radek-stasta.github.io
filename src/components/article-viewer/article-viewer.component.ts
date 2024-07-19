@@ -12,6 +12,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-article-viewer',
@@ -34,11 +35,14 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
     private _sanitizer: DomSanitizer,
     private _viewportScroller: ViewportScroller,
     private _dataService: DataService,
+    private _route: ActivatedRoute,
   ) {}
 
   async ngOnInit() {
+    const fileName = this._route.snapshot.queryParamMap.get('file');
+
     const articleResult = await this._fileReaderService.readFile(
-      'articles/github-pages-guide/github-pages-guide.cz',
+      `articles/${fileName}/${fileName}.cz`,
     );
     this.articleHtml = this._sanitizer.bypassSecurityTrustHtml(
       this._orgToHtmlConverterService.convert(articleResult.text, [

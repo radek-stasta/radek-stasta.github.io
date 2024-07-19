@@ -1,0 +1,5 @@
+<div class="absolute bg-white">
+  @for (line of articles; track line) {
+    <a href="/articles?file={{ line.filename }}">{{ line.title }}</a>
+  }
+</div>
