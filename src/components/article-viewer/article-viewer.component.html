@@ -12,7 +12,10 @@
           Obsah
         </div>
         @for (line of summaryLines; track line) {
-          <div class="my-4 px-4 hover:text-rose-500" [innerHTML]="line"></div>
+          <div
+            class="my-4 px-4 hover:text-rose-500 hover:underline"
+            [innerHTML]="line"
+          ></div>
         }
       </div>
     </div>

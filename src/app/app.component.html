@@ -1,7 +1,7 @@
 <!-- HEADER -->
 <div
   #stickyHeader
-  class="h-16 bg-white transition-transform fade-in sticky-top bg-gradient-to-r to-indigo-500 from-rose-500"
+  class="h-16 bg-white transition-transform ease-in-out sticky-top bg-gradient-to-r to-indigo-500 from-rose-500"
   [ngClass]="headerClasses"
 >
   <div class="flex place-content-center items-center size-full">
@@ -9,14 +9,23 @@
       <a href="/">
         <div>DOMŮ</div>
       </a>
-      <a href="/articles">
-        <div>ČLÁNKY</div>
-      </a>
+      <div
+        class="cursor-pointer"
+        (mouseenter)="stopArticleDropdownHiding()"
+        (mouseleave)="hideArticlesDropdown()"
+      >
+        ČLÁNKY
+      </div>
     </div>
   </div>
 </div>
 
-<app-menu-dropdown></app-menu-dropdown>
+@if (isArticleDropdownVisible) {
+  <app-menu-dropdown
+    (mouseenter)="stopArticleDropdownHiding()"
+    (mouseleave)="hideArticlesDropdown()"
+  ></app-menu-dropdown>
+}
 
 <!-- CONTENT -->
 <div>

@@ -26,6 +26,8 @@ import { MenuDropdownComponent } from '../components/menu-dropdown/menu-dropdown
 export class AppComponent implements AfterViewInit {
   @ViewChild('stickyHeader', { static: false }) headerElement!: ElementRef;
   public isHeaderSticky = false;
+  public isArticleDropdownVisible = false;
+  private hideArticleDropdownTimeoutId?: number;
 
   constructor(private _dataService: DataService) {}
 
@@ -46,16 +48,27 @@ export class AppComponent implements AfterViewInit {
     if (window.scrollY >= this.headerElement.nativeElement.scrollHeight) {
       this.isHeaderSticky = true;
       this.headerElement.nativeElement.classList.add('sticky');
-      this.headerElement.nativeElement.classList.add('border-b-2');
-      this.headerElement.nativeElement.classList.add('border-black');
     } else {
       this.isHeaderSticky = false;
     }
 
     if (window.scrollY == 0) {
       this.headerElement.nativeElement.classList.remove('sticky');
-      this.headerElement.nativeElement.classList.remove('border-b-2');
-      this.headerElement.nativeElement.classList.remove('border-black');
+    }
+  }
+
+  hideArticlesDropdown() {
+    this.stopArticleDropdownHiding(); // Clear any existing timeout
+    this.hideArticleDropdownTimeoutId = window.setTimeout(() => {
+      this.isArticleDropdownVisible = false;
+    }, 500);
+  }
+
+  stopArticleDropdownHiding() {
+    this.isArticleDropdownVisible = true;
+    if (this.hideArticleDropdownTimeoutId) {
+      window.clearTimeout(this.hideArticleDropdownTimeoutId);
+      this.hideArticleDropdownTimeoutId = undefined;
     }
   }
 }

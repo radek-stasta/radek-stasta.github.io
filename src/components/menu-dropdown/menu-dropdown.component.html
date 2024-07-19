@@ -1,5 +1,11 @@
-<div class="absolute bg-white">
-  @for (line of articles; track line) {
-    <a href="/articles?file={{ line.filename }}">{{ line.title }}</a>
-  }
+<div class="fixed flex place-content-center inset-x-0 bg-transparent">
+  <div class="bg-indigo-100 rounded-2xl p-4 text-lg border-4 border-indigo-500">
+    @for (line of articles; track line) {
+      <a
+        class="hover:text-rose-500 hover:underline"
+        href="/articles?file={{ line.filename }}"
+        >{{ line.title }}</a
+      >
+    }
+  </div>
 </div>
