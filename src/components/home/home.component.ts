@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +14,16 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass',
 })
-export class HomeComponent {}
+export class HomeComponent implements AfterViewInit {
+  @ViewChild('mainDiv', { static: false }) mainDiv!: ElementRef;
+
+  constructor(
+    private _dataService: DataService,
+    private _renderer: Renderer2,
+  ) {}
+
+  ngAfterViewInit() {
+    const height = `calc(100vh - ${this._dataService.headerHeight}px)`;
+    this._renderer.setStyle(this.mainDiv.nativeElement, 'height', height);
+  }
+}
