@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private _headerHeight = 0;
-  private _selectedLanguage = 'en';
+  private _selectedLanguage = new BehaviorSubject<string>('en');
 
-  constructor() {
+  constructor(private _translateService: TranslateService) {
     // nothing to do
   }
 
@@ -19,11 +21,16 @@ export class DataService {
     return this._headerHeight;
   }
 
-  set selectedLanguage(language) {
-    this._selectedLanguage = language;
+  set selectedLanguage(language: string) {
+    this._translateService.use(language);
+    this._selectedLanguage.next(language);
   }
 
   get selectedLanguage() {
+    return this._selectedLanguage.getValue();
+  }
+
+  getSelectedLanguageSubject() {
     return this._selectedLanguage;
   }
 }

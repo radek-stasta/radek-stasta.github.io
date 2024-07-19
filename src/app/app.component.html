@@ -5,18 +5,20 @@
   [ngClass]="headerClasses"
 >
   <div class="grid grid-cols-3 size-full text-2xl text-white font-bold">
-    <div>
-      <a href="/">
-        <img class="w-16 p-1" src="/img/myself-round.png" alt="Radek Šťasta" />
-      </a>
-    </div>
+    <button
+      tabindex="0"
+      (click)="_router.navigateByUrl('/')"
+      (keydown.enter)="_router.navigateByUrl('/')"
+    >
+      <img class="w-16 p-1" src="/img/myself-round.png" alt="Radek Šťasta" />
+    </button>
     <div class="flex place-content-center">
       <div
         class="cursor-pointer h-full place-content-center"
         (mouseenter)="stopArticleDropdownHiding()"
         (mouseleave)="hideArticlesDropdown()"
       >
-        ČLÁNKY
+        {{ "articles-link" | translate | uppercase }}
       </div>
     </div>
     <div class="flex place-content-end items-center p-1 gap-2 text-gray-400">

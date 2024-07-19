@@ -1,11 +1,16 @@
 <div class="fixed flex place-content-center inset-x-0 bg-transparent">
   <div class="bg-indigo-100 rounded-2xl p-4 text-lg border-4 border-indigo-500">
     @for (line of articles; track line) {
-      <a
+      <button
+        tabindex="0"
         class="hover:text-rose-500 hover:underline"
-        href="/articles?file={{ line.filename }}"
-        >{{ line.title }}</a
+        (click)="_router.navigateByUrl('articles?file=' + line.filename)"
+        (keydown.enter)="
+          _router.navigateByUrl('articles?file=' + line.filename)
+        "
       >
+        {{ line.title }}
+      </button>
     }
   </div>
 </div>

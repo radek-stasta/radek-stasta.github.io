@@ -13,11 +13,12 @@ import { Subscription } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-article-viewer',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './article-viewer.component.html',
   styleUrl: './article-viewer.component.sass',
 })
@@ -25,6 +26,7 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
   @Input() headerElement!: ElementRef;
 
   private _scrollSubscription: Subscription = new Subscription();
+  private _languageChangeSubscription: Subscription = new Subscription();
 
   protected articleHtml: SafeHtml = '';
   protected summaryLines: string[] = [];
@@ -36,35 +38,16 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
     private _viewportScroller: ViewportScroller,
     private _dataService: DataService,
     private _route: ActivatedRoute,
-  ) {}
+  ) {
+    this._languageChangeSubscription = this._dataService
+      .getSelectedLanguageSubject()
+      .subscribe(async () => {
+        await this.reloadArticle();
+      });
+  }
 
   async ngOnInit() {
-    const fileName = this._route.snapshot.queryParamMap.get('file');
-
-    const articleResult = await this._fileReaderService.readFile(
-      `articles/${fileName}/${fileName}.cz`,
-    );
-    this.articleHtml = this._sanitizer.bypassSecurityTrustHtml(
-      this._orgToHtmlConverterService.convert(articleResult.text, [
-        {
-          placeholder: 'lastModified',
-          substitution: articleResult.lastModified,
-        },
-      ]),
-    );
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(
-      this.articleHtml.toString(),
-      'text/html',
-    );
-    const headings = doc.querySelectorAll('h1, h2'); // selects all h1 and h2
-    this.summaryLines = Array.from(headings).map((h) => {
-      const id = h.id;
-      const text = h.textContent ?? '';
-      const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
-      return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
-    });
+    await this.reloadArticle();
   }
 
   @HostListener('document:click', ['$event'])
@@ -94,7 +77,37 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
     }
   }
 
+  async reloadArticle() {
+    const fileName = this._route.snapshot.queryParamMap.get('file');
+
+    const articleResult = await this._fileReaderService.readFile(
+      `articles/${fileName}/${fileName}.${this._dataService.selectedLanguage}`,
+    );
+    this.articleHtml = this._sanitizer.bypassSecurityTrustHtml(
+      this._orgToHtmlConverterService.convert(articleResult.text, [
+        {
+          placeholder: 'lastModified',
+          substitution: articleResult.lastModified,
+        },
+      ]),
+    );
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(
+      this.articleHtml.toString(),
+      'text/html',
+    );
+    const headings = doc.querySelectorAll('h1, h2'); // selects all h1 and h2
+    this.summaryLines = Array.from(headings).map((h) => {
+      const id = h.id;
+      const text = h.textContent ?? '';
+      const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
+      return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
+    });
+  }
+
   ngOnDestroy(): void {
     this._scrollSubscription.unsubscribe();
+    this._languageChangeSubscription.unsubscribe();
   }
 }

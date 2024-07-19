@@ -9,7 +9,7 @@
         <div
           class="font-bold p-4 text-white text-center bg-gradient-to-r from-indigo-500 to-rose-500"
         >
-          Obsah
+          {{ "articles.summary" | translate }}
         </div>
         @for (line of summaryLines; track line) {
           <div

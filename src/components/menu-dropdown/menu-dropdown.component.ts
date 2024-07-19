@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
+import { Router, RouterLink } from '@angular/router';
+import { DataService } from '../../services/data/data.service';
 
 export interface IArticle {
   title: string;
@@ -14,7 +16,7 @@ export interface IArticlePath {
 @Component({
   selector: 'app-menu-dropdown',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './menu-dropdown.component.html',
   styleUrl: './menu-dropdown.component.sass',
 })
@@ -23,7 +25,11 @@ export class MenuDropdownComponent implements OnInit {
 
   private _articleFiles = ['github-pages-guide'];
 
-  constructor(private _fileReader: FileReaderService) {}
+  constructor(
+    private _fileReader: FileReaderService,
+    protected _router: Router,
+    private _dataService: DataService,
+  ) {}
 
   async ngOnInit() {
     const articlePaths = this.getArticlePaths();
@@ -51,7 +57,7 @@ export class MenuDropdownComponent implements OnInit {
     this._articleFiles.forEach((file) => {
       articlePaths.push({
         filename: file,
-        path: `/articles/${file}/${file}.cz`,
+        path: `/articles/${file}/${file}.${this._dataService.selectedLanguage}`,
       });
     });
     return articlePaths;
