@@ -14,9 +14,9 @@
     </button>
     <div class="flex place-content-center">
       <div
-        class="cursor-pointer h-full place-content-center"
-        (mouseenter)="stopArticleDropdownHiding()"
-        (mouseleave)="hideArticlesDropdown()"
+        class="px-10 cursor-pointer h-full place-content-center"
+        (mouseenter)="setArticlesDropdownVisibility(true)"
+        (mouseleave)="setArticlesDropdownVisibility(false)"
       >
         {{ "articles-link" | translate | uppercase }}
       </div>
@@ -46,8 +46,8 @@
 
 @if (isArticleDropdownVisible) {
   <app-menu-dropdown
-    (mouseenter)="stopArticleDropdownHiding()"
-    (mouseleave)="hideArticlesDropdown()"
+    (mouseenter)="setArticlesDropdownVisibility(true)"
+    (mouseleave)="setArticlesDropdownVisibility(false)"
   ></app-menu-dropdown>
 }
 

@@ -29,7 +29,6 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('stickyHeader', { static: false }) headerElement!: ElementRef;
   protected isHeaderSticky = false;
   protected isArticleDropdownVisible = false;
-  private hideArticleDropdownTimeoutId?: number;
 
   constructor(
     protected _dataService: DataService,
@@ -62,18 +61,7 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  hideArticlesDropdown() {
-    this.stopArticleDropdownHiding(); // Clear any existing timeout
-    this.hideArticleDropdownTimeoutId = window.setTimeout(() => {
-      this.isArticleDropdownVisible = false;
-    }, 500);
-  }
-
-  stopArticleDropdownHiding() {
-    this.isArticleDropdownVisible = true;
-    if (this.hideArticleDropdownTimeoutId) {
-      window.clearTimeout(this.hideArticleDropdownTimeoutId);
-      this.hideArticleDropdownTimeoutId = undefined;
-    }
+  setArticlesDropdownVisibility(value: boolean) {
+    this.isArticleDropdownVisible = value;
   }
 }
