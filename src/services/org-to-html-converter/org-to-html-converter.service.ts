@@ -80,7 +80,7 @@ export class OrgToHtmlConverterService {
       // Check if line ends a code block
       if (inCodeBlock && !lines[index + 1].startsWith('~')) {
         inCodeBlock = false;
-        const blockToReplace = `<pre class="hljs p-4 rounded-xl mb-4"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
+        const blockToReplace = `<pre class="hljs p-4 rounded-xl mb-4 overflow-auto"><code>${hljs.highlightAuto(codeBlockBuffer).value}</code></pre>`;
         codeBlockBuffer = '';
         return blockToReplace;
       }
