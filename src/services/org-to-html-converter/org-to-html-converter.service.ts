@@ -56,10 +56,20 @@ export class OrgToHtmlConverterService {
     return line.replace(orgLinkPattern, replacer);
   }
 
-  handleImgPattern(line: string) {
+  handleImgPattern(line: string, lines: string[], index: number) {
+    let altText = '';
+    if (index > 0 && lines[index - 1].startsWith('#+ATTR_HTML: :alt')) {
+      altText = lines[index - 1].replace('#+ATTR_HTML: :alt', '').trim();
+    }
+
     const orgImageLinkPattern = /\[\[(.*?)]]/g;
     const replacerImage = (_: string, g1: string) => {
-      return `<img src="${g1}" class="h-auto max-w-full" alt="${g1}"/>`;
+      return `<div class="flex flex-col place-items-center">
+                <div class="border-2 border-indigo-500 rounded-2xl">
+                  <img class="rounded-t-2xl" src="${g1}" alt="${altText || g1}"/>
+                  <div class="rounded-b-2xl bg-indigo-100 border-t border-indigo-500 text-center">${altText || g1}</div>
+                </div>
+              </div>`;
     };
     return line.replace(orgImageLinkPattern, replacerImage);
   }
@@ -79,6 +89,14 @@ export class OrgToHtmlConverterService {
     }
 
     return undefined;
+  }
+
+  printOrSkipLine(line: string) {
+    if (line.startsWith('#+ATTR_HTML: :alt')) {
+      return '';
+    } else {
+      return line;
+    }
   }
 
   handleEmptyLine(index: number, lines: string[]) {
@@ -117,7 +135,7 @@ export class OrgToHtmlConverterService {
       line = this.handleLinkPattern(line);
 
       // Check for org image link pattern and replace it with HTML img tag
-      line = this.handleImgPattern(line);
+      line = this.handleImgPattern(line, lines, index);
 
       // Check for code pattern and replace it with HTML code tag with highlighting
       // Check if line starts a code block
@@ -150,7 +168,7 @@ export class OrgToHtmlConverterService {
         return this.handleEmptyLine(index, lines);
       }
 
-      return line;
+      return this.printOrSkipLine(line);
     });
 
     return htmlLines.join('\n');
