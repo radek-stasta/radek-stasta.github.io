@@ -52,7 +52,7 @@ Now we can test that our new application works using the command *ng serve* in t
 If everything went well, a web browser should open with the content of the demo application.
 
 #+ATTR_HTML: :alt Demo application served on localhost
-[[/articles/github-pages-guide/img/001.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/001.png]]
 
 ** Creating a Repository on GitHub
 
@@ -60,7 +60,7 @@ Now that we have a prepared web application, it is necessary to create a reposit
 the source code and then generate the compiled files that will be used for publishing through GitHub Pages.
 
 #+ATTR_HTML: :alt Creating new repository on GitHub
-[[/articles/github-pages-guide/img/002.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/002.png]]
 
 If we want the web pages to be directly available under the user account's address, we need to create a repository in the form *[username].github.io*
 (e.g., as shown in the image above, the pages will be subsequently available at radek-stasta-dev.github.io). If we choose any
@@ -68,7 +68,7 @@ other repository name, it will be available at *[username].github.io/[repository
 we need to note down the repository address with the .git extension, which we will need in the next step.
 
 #+ATTR_HTML: :alt Place where to find repository URL on GitHub
-[[/articles/github-pages-guide/img/003.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/003.png]]
 
 ** Creating a Personal Access Token on GitHub
 
@@ -85,16 +85,16 @@ if we want to restrict which repositories we set permissions for). Then in the *
 set the *Contents* permission to *Access: Read and Write* and press the *Generate token* button.
 
 #+ATTR_HTML: :alt Personal access token basic settings
-[[/articles/github-pages-guide/img/004.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/004.png]]
 
 #+ATTR_HTML: :alt Personal access token repository permissions settings
-[[/articles/github-pages-guide/img/005.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/005.png]]
 
 On the next screen, the generated access token will be displayed, and it is *NECESSARY* to copy and save this access token
 because it cannot be displayed again for security reasons. It would be necessary to generate the access token again.
 
 #+ATTR_HTML: :alt Generated personal access token
-[[/articles/github-pages-guide/img/006.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/006.png]]
 
 ** Uploading Local Files to the GitHub Repository
 
@@ -122,7 +122,7 @@ via the command line using a username and password since 2021. If everything wen
 GitHub interface.
 
 #+ATTR_HTML: :alt Uploaded application files in repository on GitHub
-[[/articles/github-pages-guide/img/007.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/007.png]]
 
 ** Creating Compiled Pages for Publication Using the angular-cli-ghpages Package
 
@@ -144,12 +144,12 @@ Now, just run the following command in the application directory, and *angular-c
 ~ng deploy --repo=https://github.com/[username]/[repository name].git --base-href=/~
 
 #+ATTR_HTML: :alt Example of angular-cli-ghpages deploy output
-[[/articles/github-pages-guide/img/008.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/008.png]]
 
 If everything went well, *angular-cli-ghpages* created a new gh-pages branch on GitHub, where it uploaded the compiled web page files.
 
 #+ATTR_HTML: :alt Uploaded compiled files in gh-pages branch on GitHub
-[[/articles/github-pages-guide/img/009.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/009.png]]
 
 ** Setting the branch with files for GitHub Pages on GitHub
 
@@ -158,14 +158,14 @@ select *Settings* and then *Pages* in the left menu. In the default settings, th
 switched to the newly created *gh-pages* branch and press the *Save* button.
 
 #+ATTR_HTML: :alt GitHub Pages settings
-[[/articles/github-pages-guide/img/010.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/010.png]]
 
 GitHub will register this change after a while, switch the branches, and if we click on the *Visit site* button at the top
 of the screen or open the browser at the web page address, the same pages as those we tested locally should be displayed,
 now published on the web via GitHub Pages.
 
 #+ATTR_HTML: :alt Final published application on GitHub using GitHub Pages
-[[/articles/github-pages-guide/img/011.png]]
+[[/articles/publishing-angular-app-to-github-pages/img/011.png]]
 
 * Conclusion
 
