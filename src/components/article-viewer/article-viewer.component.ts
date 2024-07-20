@@ -79,7 +79,7 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
   }
 
   async reloadArticle() {
-    const fileName = this._route.snapshot.queryParamMap.get('file');
+    const fileName = this._route.snapshot.queryParamMap.get('pathname');
 
     // load article html
     const articleResult = await this._fileReaderService.readFile(

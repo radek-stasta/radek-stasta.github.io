@@ -7,9 +7,9 @@
         <button
           tabindex="0"
           class="hover:text-rose-500 hover:underline"
-          (click)="_router.navigateByUrl('articles?file=' + line.filename)"
+          (click)="_router.navigateByUrl('articles?pathname=' + line.filename)"
           (keydown.enter)="
-            _router.navigateByUrl('articles?file=' + line.filename)
+            _router.navigateByUrl('articles?pathname=' + line.filename)
           "
         >
           {{ line.title }}
