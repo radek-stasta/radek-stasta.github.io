@@ -14,14 +14,15 @@ export interface IArticlePath {
 }
 
 @Component({
-  selector: 'app-menu-dropdown',
+  selector: 'app-articles-dropdown',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './menu-dropdown.component.html',
-  styleUrl: './menu-dropdown.component.sass',
+  templateUrl: './articles-dropdown.component.html',
+  styleUrl: './articles-dropdown.component.sass',
 })
-export class MenuDropdownComponent implements OnInit {
+export class ArticlesDropdownComponent implements OnInit {
   protected articles: IArticle[] = [];
+  protected articlesLoaded = false;
 
   private _articleFiles = ['github-pages-guide'];
 
@@ -50,6 +51,7 @@ export class MenuDropdownComponent implements OnInit {
         });
       }
     }
+    this.articlesLoaded = true;
   }
 
   getArticlePaths() {

@@ -9,7 +9,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../services/data/data.service';
-import { MenuDropdownComponent } from '../components/menu-dropdown/menu-dropdown.component';
+import { ArticlesDropdownComponent } from '../components/articles-dropdown/articles-dropdown.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -20,7 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
     RouterOutlet,
     ArticleViewerComponent,
     CommonModule,
-    MenuDropdownComponent,
+    ArticlesDropdownComponent,
     TranslateModule,
   ],
   templateUrl: './app.component.html',
