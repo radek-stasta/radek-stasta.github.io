@@ -4,10 +4,11 @@ import {
   ElementRef,
   ViewChild,
   OnInit,
+  HostListener,
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DataService } from '../services/data/data.service';
 import { ArticlesDropdownComponent } from '../components/articles-dropdown/articles-dropdown.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,6 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
     CommonModule,
     ArticlesDropdownComponent,
     TranslateModule,
+    NgOptimizedImage,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass',
@@ -29,6 +31,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild('header', { static: false }) headerElement!: ElementRef;
   protected isArticleDropdownVisible = false;
+  protected isScrolledTop = true;
 
   constructor(
     protected dataService: DataService,
@@ -61,6 +64,16 @@ export class AppComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.dataService.headerHeight =
       this.headerElement.nativeElement.scrollHeight;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const scrollTop = document.documentElement.scrollTop;
+    this.isScrolledTop = scrollTop == 0;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   setArticlesDropdownVisibility(value: boolean) {
