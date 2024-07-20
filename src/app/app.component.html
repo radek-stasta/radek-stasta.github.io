@@ -6,8 +6,8 @@
   <div class="grid grid-cols-3 size-full text-2xl text-white font-bold">
     <button
       tabindex="0"
-      (click)="_router.navigateByUrl('/')"
-      (keydown.enter)="_router.navigateByUrl('/')"
+      (click)="router.navigateByUrl('/')"
+      (keydown.enter)="router.navigateByUrl('/')"
     >
       <img class="w-16 p-1" src="/img/myself-round.png" alt="Radek Šťasta" />
     </button>
@@ -24,18 +24,18 @@
       <button
         tabindex="0"
         class="cursor-pointer"
-        [ngClass]="{ 'text-white': _dataService.selectedLanguage === 'cz' }"
-        (click)="_dataService.selectedLanguage = 'cz'"
-        (keydown.enter)="_dataService.selectedLanguage = 'cz'"
+        [ngClass]="{ 'text-white': dataService.selectedLanguage === 'cz' }"
+        (click)="dataService.selectedLanguage = 'cz'"
+        (keydown.enter)="dataService.selectedLanguage = 'cz'"
       >
         cz
       </button>
       <button
         tabindex="0"
         class="cursor-pointer"
-        [ngClass]="{ 'text-white': _dataService.selectedLanguage === 'en' }"
-        (click)="_dataService.selectedLanguage = 'en'"
-        (keydown.enter)="_dataService.selectedLanguage = 'en'"
+        [ngClass]="{ 'text-white': dataService.selectedLanguage === 'en' }"
+        (click)="dataService.selectedLanguage = 'en'"
+        (keydown.enter)="dataService.selectedLanguage = 'en'"
       >
         en
       </button>
