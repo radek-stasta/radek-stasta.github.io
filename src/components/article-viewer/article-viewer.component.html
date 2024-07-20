@@ -1,8 +1,15 @@
 <div class="container mx-auto pt-10">
-  <div class=".giscus"></div>
   <div class="grid grid-cols-3 text-xl">
     <!-- CONTENT -->
-    <div class="col-span-2 leading-relaxed" [innerHTML]="articleHtml"></div>
+    <div class="col-span-2 leading-relaxed">
+      <div [innerHTML]="articleHtml"></div>
+      <div>
+        <div id="comments" class="text-4xl my-8 font-bold">
+          {{ "articles.comments" | translate }}
+        </div>
+        <div class="giscus"></div>
+      </div>
+    </div>
 
     <!-- SIDE PANEL -->
     <div>

@@ -5,7 +5,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
   SecurityContext,
+  AfterViewInit,
 } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
 import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
@@ -14,7 +16,7 @@ import { Subscription } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-article-viewer',
@@ -23,7 +25,9 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './article-viewer.component.html',
   styleUrl: './article-viewer.component.sass',
 })
-export class ArticleViewerComponent implements OnInit, OnDestroy {
+export class ArticleViewerComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() headerElement!: ElementRef;
 
   private _scrollSubscription: Subscription = new Subscription();
@@ -39,6 +43,9 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
     private _viewportScroller: ViewportScroller,
     private _dataService: DataService,
     private _route: ActivatedRoute,
+    private _renderer: Renderer2,
+    private _el: ElementRef,
+    private _translateService: TranslateService,
   ) {
     this._languageChangeSubscription = this._dataService
       .getSelectedLanguageSubject()
@@ -49,6 +56,26 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.reloadArticle();
+  }
+
+  ngAfterViewInit() {
+    const script = this._renderer.createElement('script');
+    script.defer = true;
+    script.async = true;
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('crossorigin', 'anonymous');
+    script.setAttribute('data-repo', 'radek-stasta/radek-stasta.github.io');
+    script.setAttribute('data-repo-id', 'R_kgDOMVlNQw');
+    script.setAttribute('data-category', 'giscus');
+    script.setAttribute('data-category-id', 'DIC_kwDOMVlNQ84ChCZ1');
+    script.setAttribute('data-mapping', 'url');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'light');
+    script.setAttribute('data-lang', 'en');
+    this._renderer.appendChild(this._el.nativeElement, script);
   }
 
   @HostListener('document:click', ['$event'])
@@ -110,6 +137,11 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
         const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
         return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
       });
+
+      // add comments link
+      this.summaryLines.push(
+        `<div class=""><a href="#comments">${this._translateService.instant('articles.comments')}</a></div>`,
+      );
     }
   }
 

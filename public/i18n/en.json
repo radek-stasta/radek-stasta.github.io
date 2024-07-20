@@ -6,6 +6,7 @@
     "sub-comment": "In the future, this site should function as a hub for many different projects, collection of useful guides, examples, whatever I can manage with help of you, IT community."
   },
   "articles": {
-    "summary": "Summary"
+    "summary": "Summary",
+    "comments": "Comments"
   }
 }

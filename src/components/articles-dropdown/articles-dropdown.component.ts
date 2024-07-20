@@ -24,7 +24,7 @@ export class ArticlesDropdownComponent implements OnInit {
   protected articles: IArticle[] = [];
   protected articlesLoaded = false;
 
-  private _articleFiles = ['publishing-angular-app-to-github-pages'];
+  private _articleFiles = ['publishing-angular-app-to-github-pages', 'test'];
 
   constructor(
     private _fileReader: FileReaderService,

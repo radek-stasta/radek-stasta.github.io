@@ -6,6 +6,7 @@
     "sub-comment": "V budoucnu by tento web měl sloužit jako centrální místo pro různé projekty, soubor návodů, příkladů, všeho co se podaří vytvořit s pomocí vás, IT komunity."
   },
   "articles": {
-    "summary": "Obsah"
+    "summary": "Obsah",
+    "comments": "Komentáře"
   }
 }
