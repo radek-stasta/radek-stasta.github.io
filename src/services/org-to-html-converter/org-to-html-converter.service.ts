@@ -23,17 +23,13 @@ export class OrgToHtmlConverterService {
     '- ': { htmlTag: 'li' },
   };
 
-  convert(
-    orgText: string,
+  private _hTagID = 0;
+  protected _divStarted = false;
+
+  handlePlaceholders(
+    lines: string[],
     placeholderSubstitutions?: IPlaceholderSubstitution[],
   ) {
-    let divStarted = false;
-    let inCodeBlock = false;
-    let codeBlockBuffer = '';
-    let hTagID = 0;
-    const lines = orgText.split('\n');
-
-    //look through lines and for each placeholderSubstitution replace placeholder with substitution
     if (placeholderSubstitutions) {
       placeholderSubstitutions.forEach((substitution) => {
         lines.forEach((line, index) => {
@@ -44,26 +40,84 @@ export class OrgToHtmlConverterService {
         });
       });
     }
+  }
+
+  handleBoldPattern(line: string) {
+    const boldPattern = /(?<!^)\*(.*?)\*/g;
+    const replacerBold = (_: string, g1: string) =>
+      `<span class="font-bold">${g1}</span>`;
+    return line.replace(boldPattern, replacerBold);
+  }
+
+  handleLinkPattern(line: string) {
+    const orgLinkPattern = /\[\[(.*?)]\[(.*?)]]/g;
+    const replacer = (_: string, g1: string, g2: string) =>
+      `<a href="${g1}" target="_blank" class="text-rose-500 hover:underline">${g2}</a>`;
+    return line.replace(orgLinkPattern, replacer);
+  }
+
+  handleImgPattern(line: string) {
+    const orgImageLinkPattern = /\[\[(.*?)]]/g;
+    const replacerImage = (_: string, g1: string) => {
+      return `<img src="${g1}" class="h-auto max-w-full" alt="${g1}"/>`;
+    };
+    return line.replace(orgImageLinkPattern, replacerImage);
+  }
+
+  handleTags(line: string) {
+    for (const tag in this.tags) {
+      if (line.startsWith(tag)) {
+        const key = tag as keyof typeof this.tags;
+
+        // Check if current tag is h and add id
+        const tagWithId = this.tags[key].htmlTag.startsWith('h')
+          ? `${this.tags[key].htmlTag} id="hTag${this._hTagID++}"`
+          : this.tags[key].htmlTag;
+
+        return `<${tagWithId}>${line.slice(tag.length)}</${tagWithId.split(' ')[0]}>`;
+      }
+    }
+
+    return undefined;
+  }
+
+  handleEmptyLine(index: number, lines: string[]) {
+    let divTag = '';
+    if (this._divStarted) {
+      this._divStarted = false;
+      divTag += '</div>';
+    }
+
+    if (index !== lines.length - 1) {
+      this._divStarted = true;
+      divTag += '<div class="my-8 text-justify">';
+    }
+
+    return divTag;
+  }
+
+  convert(
+    orgText: string,
+    placeholderSubstitutions?: IPlaceholderSubstitution[],
+  ) {
+    let inCodeBlock = false;
+    let codeBlockBuffer = '';
+    const lines = orgText.split('\n');
+
+    this._hTagID = 0;
+    this._divStarted = false;
+
+    this.handlePlaceholders(lines, placeholderSubstitutions);
 
     const htmlLines = lines.map((line, index) => {
       // Check for bold text patter and replace it with HTML tag with bold text
-      const boldPattern = /(?<!^)\*(.*?)\*/g;
-      const replacerBold = (_: string, g1: string) =>
-        `<span class="font-bold">${g1}</span>`;
-      line = line.replace(boldPattern, replacerBold);
+      line = this.handleBoldPattern(line);
 
       // Check for org link pattern and replace it with HTML anchor tag
-      const orgLinkPattern = /\[\[(.*?)]\[(.*?)]]/g;
-      const replacer = (_: string, g1: string, g2: string) =>
-        `<a href="${g1}" target="_blank" class="text-rose-500 hover:underline">${g2}</a>`;
-      line = line.replace(orgLinkPattern, replacer);
+      line = this.handleLinkPattern(line);
 
-      // Check for remaining org link pattern and consider it as an image link
-      const orgImageLinkPattern = /\[\[(.*?)]]/g;
-      const replacerImage = (_: string, g1: string) => {
-        return `<img src="${g1}" class="h-auto max-w-full"/>`;
-      };
-      line = line.replace(orgImageLinkPattern, replacerImage);
+      // Check for org image link pattern and replace it with HTML img tag
+      line = this.handleImgPattern(line);
 
       // Check for code pattern and replace it with HTML code tag with highlighting
       // Check if line starts a code block
@@ -86,38 +140,14 @@ export class OrgToHtmlConverterService {
       }
 
       // Replace specific tags
-      for (const tag in this.tags) {
-        if (line.startsWith(tag)) {
-          const key = tag as keyof typeof this.tags;
-
-          // Check if current tag is h and add id
-          const tagWithId = this.tags[key].htmlTag.startsWith('h')
-            ? `${this.tags[key].htmlTag} id="hTag${hTagID++}"`
-            : this.tags[key].htmlTag;
-
-          return `<${tagWithId}>${line.slice(tag.length)}</${tagWithId.split(' ')[0]}>`;
-        }
+      const tagResult = this.handleTags(line);
+      if (tagResult) {
+        return tagResult;
       }
 
-      //empty line, new paragraphs
+      // Handle empty lines
       if (line.length == 0) {
-        let divTag = '';
-        if (divStarted) {
-          divStarted = false;
-          divTag += '</div>';
-        }
-
-        if (index !== lines.length - 1) {
-          divStarted = true;
-          divTag += '<div class="my-8 text-justify">';
-        }
-
-        return divTag;
-      }
-
-      //comments (just print them)
-      if (line.startsWith('# ')) {
-        return line.slice(2);
+        return this.handleEmptyLine(index, lines);
       }
 
       return line;

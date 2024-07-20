@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  SecurityContext,
 } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
 import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
@@ -80,6 +81,7 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
   async reloadArticle() {
     const fileName = this._route.snapshot.queryParamMap.get('file');
 
+    // load article html
     const articleResult = await this._fileReaderService.readFile(
       `articles/${fileName}/${fileName}.${this._dataService.selectedLanguage}`,
     );
@@ -92,18 +94,23 @@ export class ArticleViewerComponent implements OnInit, OnDestroy {
       ]),
     );
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(
-      this.articleHtml.toString(),
-      'text/html',
+    // costruct summary lines
+    const unsafeHtml = this._sanitizer.sanitize(
+      SecurityContext.HTML,
+      this.articleHtml,
     );
-    const headings = doc.querySelectorAll('h1, h2'); // selects all h1 and h2
-    this.summaryLines = Array.from(headings).map((h) => {
-      const id = h.id;
-      const text = h.textContent ?? '';
-      const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
-      return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
-    });
+
+    if (unsafeHtml) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(unsafeHtml, 'text/html');
+      const headings = doc.querySelectorAll('h1, h2'); // selects all h1 and h2
+      this.summaryLines = Array.from(headings).map((h) => {
+        const id = h.id;
+        const text = h.textContent ?? '';
+        const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
+        return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
+      });
+    }
   }
 
   ngOnDestroy(): void {
