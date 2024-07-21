@@ -1,7 +1,7 @@
 <div #mainDiv class="bg-cover bg-code-background">
   <div class="flex size-full place-content-center items-center">
-    <div class="flex w-3/4">
-      <div class="flex">
+    <div class="flex w-full sm:w-3/4">
+      <div class="hidden lg:flex">
         <img
           class="object-cover"
           ngSrc="/img/myself.jpg"
@@ -12,18 +12,22 @@
       </div>
       <div class="col-span-2 backdrop-blur-lg flex flex-col text-white p-10">
         <div>
-          <div class="font-bold text-6xl">Mgr. Radek Šťasta</div>
-          <div class="text-4xl">
+          <div class="font-bold text-4xl 2xl:text-6xl">Mgr. Radek Šťasta</div>
+          <div class="text-2xl 2xl:text-4xl">
             {{ "home.personal-description" | translate }}
           </div>
           <hr class="w-full" />
         </div>
         <div class="flex-1 mt-8">
-          <div class="text-2xl">{{ "home.about-pages" | translate }}</div>
-          <div class="text-2xl mt-4">{{ "home.sub-comment" | translate }}</div>
+          <div class="text-xl 2xl:text-2xl">
+            {{ "home.about-pages" | translate }}
+          </div>
+          <div class="text-xl 2xl:text-2xl mt-4">
+            {{ "home.sub-comment" | translate }}
+          </div>
           <div></div>
         </div>
-        <div class="flex flex-row gap-4 self-end">
+        <div class="flex mt-4 flex-row gap-4 self-end">
           <a href="mailto:rstasta@icloud.com">
             <svg
               class="h-8 w-8 text-rose-500"
