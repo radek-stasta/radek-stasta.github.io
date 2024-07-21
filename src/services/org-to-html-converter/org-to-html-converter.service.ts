@@ -11,15 +11,15 @@ export interface IPlaceholderSubstitution {
 })
 export class OrgToHtmlConverterService {
   private tags = {
-    '#+title:': { htmlTag: 'h1 class="text-6xl font-bold"' },
+    '#+title:': { htmlTag: 'h1 class="text-4xl sm:text-6xl font-bold"' },
     '#+author:': {
       htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
     },
     '#+date:': {
       htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
     },
-    '* ': { htmlTag: 'h1 class="text-4xl my-8 font-bold"' },
-    '** ': { htmlTag: 'h2 class="text-2xl my-6 font-bold"' },
+    '* ': { htmlTag: 'h1 class="text-2xl sm:text-4xl my-8 font-bold"' },
+    '** ': { htmlTag: 'h2 class="text-xl sm:text-2xl my-6 font-bold"' },
     '- ': { htmlTag: 'li' },
   };
 
