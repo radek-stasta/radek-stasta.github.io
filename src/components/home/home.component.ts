@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Renderer2,
@@ -16,18 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass',
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent {
   @ViewChild('mainDiv', { static: false }) mainDiv!: ElementRef;
 
   constructor(
     private _dataService: DataService,
     private _renderer: Renderer2,
   ) {}
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      const height = `calc(100vh - ${this._dataService.headerHeight}px)`;
-      this._renderer.setStyle(this.mainDiv.nativeElement, 'height', height);
-    });
-  }
 }
