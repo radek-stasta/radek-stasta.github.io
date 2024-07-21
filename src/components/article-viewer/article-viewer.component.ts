@@ -8,12 +8,13 @@ import {
   Renderer2,
   SecurityContext,
   AfterViewInit,
+  Inject,
 } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
 import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { ViewportScroller } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -40,12 +41,12 @@ export class ArticleViewerComponent
     private _fileReaderService: FileReaderService,
     private _orgToHtmlConverterService: OrgToHtmlConverterService,
     private _sanitizer: DomSanitizer,
-    private _viewportScroller: ViewportScroller,
     private _dataService: DataService,
     private _route: ActivatedRoute,
     private _renderer: Renderer2,
     private _el: ElementRef,
     private _translateService: TranslateService,
+    @Inject(DOCUMENT) private _document: Document,
   ) {
     this._languageChangeSubscription = this._dataService
       .getSelectedLanguageSubject()
@@ -81,27 +82,24 @@ export class ArticleViewerComponent
   @HostListener('document:click', ['$event'])
   public handleLinks(event: Event): void {
     const target = event.target as HTMLElement;
-
-    // If the target is a link and its href attribute starts with '#'
     if (
       target.tagName === 'A' &&
       target.getAttribute('href')?.startsWith('#')
     ) {
-      event.preventDefault(); // Prevent the default action
-
-      // Extract the id from the href attribute and scroll to the target
+      event.preventDefault();
       const id = target.getAttribute('href')!.slice(1);
-      this._viewportScroller.scrollToAnchor(id);
+      // Get the element
+      const element = this._document.getElementById(id);
 
-      // scroll adjustment due to sticky header
-      const scrollAdjustment = this._dataService.headerHeight;
-      const scrollRect = this._viewportScroller.getScrollPosition();
-      setTimeout(() => {
-        this._viewportScroller.scrollToPosition([
-          scrollRect[0],
-          scrollRect[1] - scrollAdjustment,
-        ]);
-      });
+      if (element) {
+        // Scroll to the element considering the sticky header
+        element.scrollIntoView({ block: 'start', inline: 'nearest' });
+        // Adjust scroll position for the sticky header
+        window.scrollTo({
+          top: window.scrollY - this._dataService.headerHeight,
+          behavior: 'smooth',
+        });
+      }
     }
   }
 
