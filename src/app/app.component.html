@@ -18,13 +18,18 @@
       />
     </button>
     <div class="flex place-content-center">
-      <div
+      <button
+        tabindex="0"
         class="px-10 cursor-pointer h-full place-content-center"
         (mouseenter)="setArticlesDropdownVisibility(true)"
         (mouseleave)="setArticlesDropdownVisibility(false)"
+        (click)="setArticlesDropdownVisibility(!isArticleDropdownVisible)"
+        (keydown.enter)="
+          setArticlesDropdownVisibility(!isArticleDropdownVisible)
+        "
       >
         {{ "articles-link" | translate | uppercase }}
-      </div>
+      </button>
     </div>
     <div class="flex place-content-end items-center p-1 gap-2 text-gray-400">
       <button
