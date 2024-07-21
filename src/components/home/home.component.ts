@@ -25,7 +25,9 @@ export class HomeComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    const height = `calc(100vh - ${this._dataService.headerHeight}px)`;
-    this._renderer.setStyle(this.mainDiv.nativeElement, 'height', height);
+    setTimeout(() => {
+      const height = `calc(100vh - ${this._dataService.headerHeight}px)`;
+      this._renderer.setStyle(this.mainDiv.nativeElement, 'height', height);
+    });
   }
 }
