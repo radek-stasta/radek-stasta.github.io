@@ -3,16 +3,14 @@
     <div
       class="bg-indigo-100 rounded-2xl p-4 text-lg border-4 border-indigo-500"
     >
-      @for (line of articles; track line) {
+      @for (article of articles; track article) {
         <button
           tabindex="0"
           class="hover:text-rose-500 hover:underline"
-          (click)="_router.navigateByUrl('articles?pathname=' + line.filename)"
-          (keydown.enter)="
-            _router.navigateByUrl('articles?pathname=' + line.filename)
-          "
+          (click)="navigateToArticle(article)"
+          (keydown.enter)="navigateToArticle(article)"
         >
-          {{ line.title }}
+          {{ article.title }}
         </button>
       }
     </div>

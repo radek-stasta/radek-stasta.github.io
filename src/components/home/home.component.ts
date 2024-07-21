@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';

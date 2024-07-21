@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class DataService {
   private _headerHeight = 0;
   private _selectedLanguage = new BehaviorSubject<string>('en');
+  private _isArticleDropdownVisible = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -37,5 +38,13 @@ export class DataService {
 
   getSelectedLanguageSubject() {
     return this._selectedLanguage;
+  }
+
+  set isArticleDropdownVisible(value: boolean) {
+    this._isArticleDropdownVisible = value;
+  }
+
+  get isArticleDropdownVisible() {
+    return this._isArticleDropdownVisible;
   }
 }

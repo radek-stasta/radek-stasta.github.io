@@ -23,9 +23,8 @@
         class="px-10 cursor-pointer h-full place-content-center"
         (mouseenter)="setArticlesDropdownVisibility(true)"
         (mouseleave)="setArticlesDropdownVisibility(false)"
-        (click)="setArticlesDropdownVisibility(!isArticleDropdownVisible)"
-        (keydown.enter)="
-          setArticlesDropdownVisibility(!isArticleDropdownVisible)
+        (touchstart)="
+          setArticlesDropdownVisibility(!dataService.isArticleDropdownVisible)
         "
       >
         {{ "articles-link" | translate | uppercase }}
@@ -54,7 +53,7 @@
   </div>
 </div>
 
-@if (isArticleDropdownVisible) {
+@if (dataService.isArticleDropdownVisible) {
   <app-articles-dropdown
     (mouseenter)="setArticlesDropdownVisibility(true)"
     (mouseleave)="setArticlesDropdownVisibility(false)"

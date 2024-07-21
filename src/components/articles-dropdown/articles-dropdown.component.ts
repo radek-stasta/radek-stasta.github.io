@@ -64,4 +64,9 @@ export class ArticlesDropdownComponent implements OnInit {
     });
     return articlePaths;
   }
+
+  async navigateToArticle(article: IArticle) {
+    this._dataService.isArticleDropdownVisible = false;
+    await this._router.navigateByUrl('articles?pathname=' + article.filename);
+  }
 }

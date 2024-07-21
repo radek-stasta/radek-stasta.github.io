@@ -30,7 +30,6 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild('header', { static: false }) headerElement!: ElementRef;
-  protected isArticleDropdownVisible = false;
   protected isScrolledTop = true;
 
   constructor(
@@ -77,6 +76,6 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   setArticlesDropdownVisibility(value: boolean) {
-    this.isArticleDropdownVisible = value;
+    this.dataService.isArticleDropdownVisible = value;
   }
 }
