@@ -3,7 +3,7 @@
   "home": {
     "personal-description": "IT specialist, software developer",
     "about-pages": "This personal website are now in phase of active development. Soon there will be more content (eg. CV, articles from world of IT, guides, etc.). So far you can contact me using links below.",
-    "sub-comment": "If you find any problem with the pages, any error, bad behavior, any bug, please open issue or pull request in website repository ",
+    "sub-comment": "Pages are not yet totally optimized for mobile devices (will be fixed soon). If you find any problem with the pages, any error, bad behavior, any bug, please open issue or pull request in website repository ",
     "here": "here"
   },
   "articles": {
