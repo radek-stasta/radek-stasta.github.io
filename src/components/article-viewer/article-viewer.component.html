@@ -12,10 +12,13 @@
         </div>
       </div>
 
-      <!-- SIDE PANEL -->
+      <!-- SUMMARY PANEL -->
       <div
-        #sidePanel
-        class="absolute side-panel-up lg:relative lg:w-1/3 lg:pl-8 flex flex-col"
+        class="absolute summary-panel-up lg:relative lg:w-1/3 lg:pl-8 flex flex-col"
+        [ngClass]="{
+          'summary-panel-up': isSummaryCollapsed,
+          'summary-panel-down': !isSummaryCollapsed,
+        }"
       >
         <div class="bg-indigo-100">
           <div
@@ -30,9 +33,10 @@
             ></div>
           }
         </div>
-        <!-- SIDE PANEL TOGGLE -->
+        <!-- SUMMARY PANEL TOGGLE -->
         <button
           class="flex lg:hidden h-8 flex-row place-content-center border-b-2 rounded-b-full bg-indigo-100"
+          (click)="toggleSummary()"
         >
           <svg
             class="h-8 w-8 text-indigo-500"

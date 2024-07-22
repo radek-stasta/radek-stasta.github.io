@@ -14,7 +14,7 @@ import { FileReaderService } from '../../services/file-reader/file-reader.servic
 import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -22,7 +22,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-article-viewer',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, NgClass],
   templateUrl: './article-viewer.component.html',
   styleUrl: './article-viewer.component.sass',
 })
@@ -36,6 +36,7 @@ export class ArticleViewerComponent
 
   protected articleHtml: SafeHtml = '';
   protected summaryLines: string[] = [];
+  protected isSummaryCollapsed = true;
 
   constructor(
     private _fileReaderService: FileReaderService,
@@ -141,6 +142,10 @@ export class ArticleViewerComponent
         `<div class=""><a href="#comments">${this._translateService.instant('articles.comments')}</a></div>`,
       );
     }
+  }
+
+  toggleSummary() {
+    this.isSummaryCollapsed = !this.isSummaryCollapsed;
   }
 
   ngOnDestroy(): void {
