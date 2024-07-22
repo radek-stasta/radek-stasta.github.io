@@ -22,9 +22,7 @@
       <button
         tabindex="0"
         class="px-10 cursor-pointer h-full place-content-center"
-        (mouseenter)="setArticlesDropdownVisibility(true)"
-        (mouseleave)="setArticlesDropdownVisibility(false)"
-        (touchstart)="
+        (click)="
           setArticlesDropdownVisibility(!dataService.isArticleDropdownVisible)
         "
       >
@@ -57,10 +55,7 @@
 </div>
 
 @if (dataService.isArticleDropdownVisible) {
-  <app-articles-dropdown
-    (mouseenter)="setArticlesDropdownVisibility(true)"
-    (mouseleave)="setArticlesDropdownVisibility(false)"
-  ></app-articles-dropdown>
+  <app-articles-dropdown></app-articles-dropdown>
 }
 
 <!-- Scroll to top -->
@@ -90,6 +85,6 @@
 }
 
 <!-- CONTENT -->
-<div class="main-div overflow-auto">
+<div id="main-div" class="main-div overflow-auto">
   <router-outlet />
 </div>

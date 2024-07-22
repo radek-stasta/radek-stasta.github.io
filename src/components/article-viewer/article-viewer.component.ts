@@ -1,14 +1,15 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
   SecurityContext,
-  AfterViewInit,
-  Inject,
+  ViewChild,
 } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
 import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
@@ -45,6 +46,8 @@ export class ArticleViewerComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() headerElement!: ElementRef;
+  @ViewChild('summaryPanelToggle', { static: false })
+  summaryPanelToggleElement!: ElementRef;
 
   private _scrollSubscription: Subscription = new Subscription();
   private _languageChangeSubscription: Subscription = new Subscription();
@@ -106,17 +109,22 @@ export class ArticleViewerComponent
       const id = target.getAttribute('href')!.slice(1);
       // Get the element
       const element = this._document.getElementById(id);
+      const scrollableDiv = this._document.getElementById('main-div');
 
-      if (element) {
-        // Scroll to the element considering the sticky header
-        element.scrollIntoView({ block: 'start', inline: 'nearest' });
-        // Adjust scroll position for the sticky header
-        window.scrollTo({
-          top: window.scrollY - this._dataService.headerHeight,
-          behavior: 'smooth',
-        });
+      if (element && scrollableDiv) {
+        // Calculate the position to scroll to
+        scrollableDiv.scrollTop =
+          element.offsetTop -
+          this.summaryPanelToggleElement.nativeElement.clientHeight -
+          this._dataService.headerHeight;
+        this.isSummaryCollapsed = true;
       }
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isSummaryCollapsed = true;
   }
 
   async reloadArticle() {

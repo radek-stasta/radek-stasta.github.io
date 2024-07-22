@@ -19,36 +19,54 @@
       >
         <div class="bg-indigo-100">
           <div
-            class="font-bold p-4 text-white text-center bg-gradient-to-r from-indigo-500 to-rose-500"
+            class="hidden lg:block font-bold p-4 text-white text-center bg-gradient-to-r from-indigo-500 to-rose-500"
           >
             {{ "articles.summary" | translate }}
           </div>
           @for (line of summaryLines; track line) {
             <div
-              class="my-4 px-4 hover:text-rose-500 hover:underline"
+              class="my-2 lg:my-4 px-4 hover:text-rose-500 hover:underline"
               [innerHTML]="line"
             ></div>
           }
         </div>
         <!-- SUMMARY PANEL TOGGLE -->
         <button
+          #summaryPanelToggle
           class="flex lg:hidden h-8 flex-row place-content-center border-b-2 rounded-b-full bg-indigo-100"
           (click)="toggleSummary()"
         >
-          <svg
-            class="h-8 w-8 text-indigo-500"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          @if (isSummaryCollapsed) {
+            <svg
+              class="h-8 w-8 text-indigo-500"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          } @else {
+            <svg
+              class="h-8 w-8 text-indigo-500"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <polyline points="6 15 12 9 18 15" />
+            </svg>
+          }
         </button>
       </div>
     </div>
