@@ -3,7 +3,7 @@
   "home": {
     "personal-description": "IT specialista, vývojář software",
     "about-pages": "Tyto osobní stránky jsou nyní ve fázi intenzivního vývoje. Brzy zde bude daleko více obsahu (jako například žívotopis, články ze světa IT, návody, atd.). Prozatím mne můžete kontaktovat prostřednictím odkazů níže.",
-    "sub-comment": "Stránky nejsou ještě zcela optimalizované pro mobilní zařízení (bude brzy opraveno). Pokud naleznete jakýkoliv problém s těmito stránkami, jakoukoliv chybu, špatné chování, prosím, otevřete issue nebo pull request v repozitáři stránek ",
+    "sub-comment": "Pokud naleznete jakýkoliv problém s těmito stránkami, jakoukoliv chybu, špatné chování, prosím, otevřete issue nebo pull request v repozitáři stránek ",
     "here": "zde"
   },
   "articles": {
