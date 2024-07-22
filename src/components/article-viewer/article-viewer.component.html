@@ -15,10 +15,7 @@
       <!-- SUMMARY PANEL -->
       <div
         class="absolute summary-panel-up lg:relative lg:w-1/3 lg:pl-8 flex flex-col"
-        [ngClass]="{
-          'summary-panel-up': isSummaryCollapsed,
-          'summary-panel-down': !isSummaryCollapsed,
-        }"
+        [@summaryState]="isSummaryCollapsed ? 'up' : 'down'"
       >
         <div class="bg-indigo-100">
           <div

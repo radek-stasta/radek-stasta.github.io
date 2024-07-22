@@ -18,6 +18,13 @@ import { DOCUMENT, NgClass } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-article-viewer',
@@ -25,6 +32,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   imports: [TranslateModule, NgClass],
   templateUrl: './article-viewer.component.html',
   styleUrl: './article-viewer.component.sass',
+  animations: [
+    trigger('summaryState', [
+      state('up', style({ bottom: 'calc(100% - 6rem)' })),
+      state('down', style({ top: '4rem' })),
+      transition('up => down', [animate('0.25s')]),
+      transition('down => up', [animate('0.25s')]),
+    ]),
+  ],
 })
 export class ArticleViewerComponent
   implements OnInit, OnDestroy, AfterViewInit
