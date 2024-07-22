@@ -4,7 +4,6 @@ import {
   ElementRef,
   ViewChild,
   OnInit,
-  HostListener,
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
@@ -30,6 +29,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild('header', { static: false }) headerElement!: ElementRef;
+  @ViewChild('mainDiv', { static: false }) mainDivElement!: ElementRef;
   protected isScrolledTop = true;
 
   constructor(
@@ -65,14 +65,13 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.headerElement.nativeElement.scrollHeight;
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    const scrollTop = document.documentElement.scrollTop;
-    this.isScrolledTop = scrollTop == 0;
+  onMainDivScroll(event: Event) {
+    const scrollTop = (event.target as HTMLElement).scrollTop;
+    this.isScrolledTop = scrollTop === 0;
   }
 
   scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.mainDivElement.nativeElement.scrollTop = 0;
   }
 
   setArticlesDropdownVisibility(value: boolean) {

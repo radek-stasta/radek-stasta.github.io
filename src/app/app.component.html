@@ -61,7 +61,7 @@
 <!-- Scroll to top -->
 @if (!isScrolledTop) {
   <button
-    class="fixed cursor-pointer bottom-8 right-8 p-2 bg-indigo-500 rounded-full"
+    class="fixed z-50 cursor-pointer bottom-8 right-8 p-2 bg-indigo-500 rounded-full"
     (click)="scrollToTop()"
     (keydown.enter)="scrollToTop()"
   >
@@ -85,6 +85,11 @@
 }
 
 <!-- CONTENT -->
-<div id="main-div" class="main-div overflow-auto">
+<div
+  #mainDiv
+  id="main-div"
+  class="main-div overflow-auto"
+  (scroll)="onMainDivScroll($event)"
+>
   <router-outlet />
 </div>
