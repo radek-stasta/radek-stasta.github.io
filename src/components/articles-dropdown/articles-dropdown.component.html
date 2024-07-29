@@ -3,15 +3,20 @@
     <div
       class="bg-indigo-100 rounded-2xl p-4 text-lg border-4 border-indigo-500"
     >
-      @for (article of articles; track article) {
-        <button
-          tabindex="0"
-          class="hover:text-rose-500 hover:underline"
-          (click)="navigateToArticle(article)"
-          (keydown.enter)="navigateToArticle(article)"
-        >
-          {{ article.title }}
-        </button>
+      @for (tag of tags; track tag) {
+        <div class="font-bold underline text-xl mb-1">{{ tag }}</div>
+        @for (article of articles; track article) {
+          @if (article.tags.includes(tag)) {
+            <button
+              tabindex="0"
+              class="hover:text-rose-500 hover:underline"
+              (click)="navigateToArticle(article)"
+              (keydown.enter)="navigateToArticle(article)"
+            >
+              {{ article.title }}
+            </button>
+          }
+        }
       }
     </div>
   </div>

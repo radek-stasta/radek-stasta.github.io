@@ -92,7 +92,7 @@ export class OrgToHtmlConverterService {
   }
 
   printOrSkipLine(line: string) {
-    if (line.startsWith('#+ATTR_HTML: :alt')) {
+    if (line.startsWith('#+ATTR_HTML: :alt') || line.startsWith('#+TAGS:')) {
       return '';
     } else {
       return line;

@@ -143,7 +143,7 @@ export class ArticleViewerComponent
       ]),
     );
 
-    // costruct summary lines
+    // construct summary lines
     const unsafeHtml = this._sanitizer.sanitize(
       SecurityContext.HTML,
       this.articleHtml,
