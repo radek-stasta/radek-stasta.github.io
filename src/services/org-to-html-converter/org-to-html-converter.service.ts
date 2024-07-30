@@ -13,10 +13,13 @@ export class OrgToHtmlConverterService {
   private tags = {
     '#+title:': { htmlTag: 'h1 class="text-4xl sm:text-6xl font-bold"' },
     '#+author:': {
-      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
+      htmlTag: 'div class="size-fit px-2 py-1 my-1 rounded-xl bg-indigo-100"',
     },
     '#+date:': {
-      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-indigo-100"',
+      htmlTag: 'div class="size-fit px-2 py-1 my-1 rounded-xl bg-indigo-100"',
+    },
+    '#+TAGS:': {
+      htmlTag: 'div class="size-fit px-2 py-1 rounded-xl bg-rose-100"',
     },
     '* ': { htmlTag: 'h1 class="text-2xl sm:text-4xl my-8 font-bold"' },
     '** ': { htmlTag: 'h2 class="text-xl sm:text-2xl my-6 font-bold"' },
@@ -78,21 +81,34 @@ export class OrgToHtmlConverterService {
     for (const tag in this.tags) {
       if (line.startsWith(tag)) {
         const key = tag as keyof typeof this.tags;
-
         // Check if current tag is h and add id
         const tagWithId = this.tags[key].htmlTag.startsWith('h')
           ? `${this.tags[key].htmlTag} id="hTag${this._hTagID++}"`
           : this.tags[key].htmlTag;
 
+        // Special handling for the '#+TAGS:' line to generate individual divs
+        if (tag === '#+TAGS:') {
+          // Get all tags from line
+          const tagsInLine = line.slice(tag.length).trim().split(' ');
+
+          // Construct one div for each tag
+          const tagDivs = tagsInLine.map(
+            (tagInLine) =>
+              `<${tagWithId}>${tagInLine}</${tagWithId.split(' ')[0]}>`,
+          );
+
+          // Wrap all tags into a parent div
+          return `<div class="flex flex-row gap-1 my-1">${tagDivs.join('\n')}</div>`;
+        }
+
         return `<${tagWithId}>${line.slice(tag.length)}</${tagWithId.split(' ')[0]}>`;
       }
     }
-
     return undefined;
   }
 
   printOrSkipLine(line: string) {
-    if (line.startsWith('#+ATTR_HTML: :alt') || line.startsWith('#+TAGS:')) {
+    if (line.startsWith('#+ATTR_HTML: :alt')) {
       return '';
     } else {
       return line;
