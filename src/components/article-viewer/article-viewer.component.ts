@@ -17,7 +17,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { DOCUMENT, NgClass } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   animate,
@@ -62,20 +62,28 @@ export class ArticleViewerComponent
     private _sanitizer: DomSanitizer,
     private _dataService: DataService,
     private _route: ActivatedRoute,
+    private _router: Router,
     private _renderer: Renderer2,
     private _el: ElementRef,
     private _translateService: TranslateService,
     @Inject(DOCUMENT) private _document: Document,
-  ) {
-    this._languageChangeSubscription = this._dataService
-      .getSelectedLanguageSubject()
-      .subscribe(async () => {
-        await this.reloadArticle();
-      });
-  }
+  ) {}
 
   async ngOnInit() {
-    await this.reloadArticle();
+    // Subscribe to language changes
+    this._dataService
+      .getSelectedLanguageSubject()
+      .subscribe(async (language: string) => {
+        const urlTree = this._router.parseUrl(this._router.url);
+
+        // this assumes your language is the last segment in your URL
+        urlTree.root.children['primary'].segments[
+          urlTree.root.children['primary'].segments.length - 1
+        ].path = language;
+
+        await this._router.navigateByUrl(urlTree);
+        await this.reloadArticle();
+      });
   }
 
   ngAfterViewInit() {
@@ -128,11 +136,11 @@ export class ArticleViewerComponent
   }
 
   async reloadArticle() {
-    const fileName = this._route.snapshot.queryParamMap.get('pathname');
+    const routeParams = this._route.snapshot.params;
 
     // load article html
     const articleResult = await this._fileReaderService.readFile(
-      `articles/${fileName}/${fileName}.${this._dataService.selectedLanguage}`,
+      `articles/${routeParams['articleName']}/${routeParams['language']}.txt`,
     );
     this.articleHtml = this._sanitizer.bypassSecurityTrustHtml(
       this._orgToHtmlConverterService.convert(articleResult.text, [

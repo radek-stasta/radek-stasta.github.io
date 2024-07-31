@@ -5,13 +5,8 @@ import { DataService } from '../../services/data/data.service';
 
 export interface IArticle {
   title: string;
-  filename: string;
-  tags: string[];
-}
-
-export interface IArticlePath {
-  filename: string;
   path: string;
+  tags: string[];
 }
 
 @Component({
@@ -39,7 +34,7 @@ export class ArticlesDropdownComponent implements OnInit {
     const articlePaths = this.getArticlePaths();
 
     for (const path of articlePaths) {
-      const text = (await this._fileReader.readFile(path.path)).text;
+      const text = (await this._fileReader.readFile(`${path}.txt`)).text;
       const lines = text.split('\n');
 
       if (lines.length > 0) {
@@ -60,7 +55,7 @@ export class ArticlesDropdownComponent implements OnInit {
 
         this.articles.push({
           title: firstLine,
-          filename: path.filename,
+          path: path,
           tags: tagsArray,
         });
 
@@ -72,18 +67,16 @@ export class ArticlesDropdownComponent implements OnInit {
   }
 
   getArticlePaths() {
-    const articlePaths: IArticlePath[] = [];
+    const articlePaths: string[] = [];
     this._articleFiles.forEach((file) => {
-      articlePaths.push({
-        filename: file,
-        path: `/articles/${file}/${file}.${this._dataService.selectedLanguage}`,
-      });
+      articlePaths.push(`articles/${file}/cz`);
+      articlePaths.push(`articles/${file}/en`);
     });
     return articlePaths;
   }
 
   async navigateToArticle(article: IArticle) {
     this._dataService.isArticleDropdownVisible = false;
-    await this._router.navigateByUrl('articles?pathname=' + article.filename);
+    await this._router.navigateByUrl(article.path);
   }
 }

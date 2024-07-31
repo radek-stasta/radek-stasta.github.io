@@ -5,4 +5,8 @@ import { ArticleViewerComponent } from '../components/article-viewer/article-vie
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'articles', component: ArticleViewerComponent },
+  {
+    path: 'articles/:articleName/:language',
+    component: ArticleViewerComponent,
+  },
 ];
