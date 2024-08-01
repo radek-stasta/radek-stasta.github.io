@@ -8,11 +8,13 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  SecurityContext,
   ViewChild,
 } from '@angular/core';
 import { FileReaderService } from '../../services/file-reader/file-reader.service';
-import { OrgToHtmlConverterService } from '../../services/org-to-html-converter/org-to-html-converter.service';
+import {
+  EHeadingType,
+  OrgToHtmlConverterService,
+} from '../../services/org-to-html-converter/org-to-html-converter.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { DOCUMENT, NgClass } from '@angular/common';
@@ -152,27 +154,17 @@ export class ArticleViewerComponent
     );
 
     // construct summary lines
-    const unsafeHtml = this._sanitizer.sanitize(
-      SecurityContext.HTML,
-      this.articleHtml,
+    const serviceSummaryLines = this._orgToHtmlConverterService.summaryLines;
+
+    this.summaryLines = serviceSummaryLines.map((line) => {
+      const indentation = line.type === EHeadingType.h2 ? 'pl-8' : '';
+      return `<div class="${indentation}"><a href="#${line.id}">${line.text}</a></div>`;
+    });
+
+    // add comments link
+    this.summaryLines.push(
+      `<div class=""><a href="#comments">${this._translateService.instant('articles.comments')}</a></div>`,
     );
-
-    if (unsafeHtml) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(unsafeHtml, 'text/html');
-      const headings = doc.querySelectorAll('h1, h2'); // selects all h1 and h2
-      this.summaryLines = Array.from(headings).map((h) => {
-        const id = h.id;
-        const text = h.textContent ?? '';
-        const indentation = h.tagName.toLowerCase() === 'h2' ? 'pl-8' : '';
-        return `<div class="${indentation}"><a href="#${id}">${text}</a></div>`;
-      });
-
-      // add comments link
-      this.summaryLines.push(
-        `<div class=""><a href="#comments">${this._translateService.instant('articles.comments')}</a></div>`,
-      );
-    }
   }
 
   toggleSummary() {

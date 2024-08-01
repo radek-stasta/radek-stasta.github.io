@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import hljs from 'highlight.js';
 
+export enum EHeadingType {
+  h1 = 'h1',
+  h2 = 'h2',
+}
+
+export interface ISummaryLine {
+  id: string;
+  text: string;
+  type: EHeadingType;
+}
+
 export interface IPlaceholderSubstitution {
   placeholder: string;
   substitution: string;
@@ -27,7 +38,13 @@ export class OrgToHtmlConverterService {
   };
 
   private _hTagID = 0;
+  private _summaryLines: ISummaryLine[] = [];
+
   protected _divStarted = false;
+
+  public get summaryLines() {
+    return this._summaryLines;
+  }
 
   handlePlaceholders(
     lines: string[],
@@ -81,10 +98,30 @@ export class OrgToHtmlConverterService {
     for (const tag in this.tags) {
       if (line.startsWith(tag)) {
         const key = tag as keyof typeof this.tags;
-        // Check if current tag is h and add id
-        const tagWithId = this.tags[key].htmlTag.startsWith('h')
-          ? `${this.tags[key].htmlTag} id="hTag${this._hTagID++}"`
-          : this.tags[key].htmlTag;
+
+        // Check if current tag is h, add it to summaryLines and add id
+        const htmlTag = this.tags[key].htmlTag;
+        let tagWithId: string;
+
+        if (htmlTag.startsWith('h') && key != '#+title:') {
+          const id = `hTag${this._hTagID++}`;
+          const headingLineText = line.slice(tag.length);
+          const type = htmlTag.split(' ')[0] as EHeadingType;
+
+          const summaryLine: ISummaryLine = {
+            id,
+            text: headingLineText,
+            type: type,
+          };
+
+          // add to summary lines
+          this._summaryLines.push(summaryLine);
+
+          // add id
+          tagWithId = `${this.tags[key].htmlTag} id="${id}"`;
+        } else {
+          tagWithId = this.tags[key].htmlTag;
+        }
 
         // Special handling for the '#+TAGS:' line to generate individual divs
         if (tag === '#+TAGS:') {
@@ -140,6 +177,7 @@ export class OrgToHtmlConverterService {
 
     this._hTagID = 0;
     this._divStarted = false;
+    this._summaryLines = [];
 
     this.handlePlaceholders(lines, placeholderSubstitutions);
 
