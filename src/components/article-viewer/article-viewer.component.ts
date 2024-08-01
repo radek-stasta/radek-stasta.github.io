@@ -51,8 +51,8 @@ export class ArticleViewerComponent
   @ViewChild('summaryPanelToggle', { static: false })
   summaryPanelToggleElement!: ElementRef;
 
-  private _scrollSubscription: Subscription = new Subscription();
   private _languageChangeSubscription: Subscription = new Subscription();
+  private _reloadArticleSubscription: Subscription = new Subscription();
 
   protected articleHtml: SafeHtml = '';
   protected summaryLines: string[] = [];
@@ -73,7 +73,7 @@ export class ArticleViewerComponent
 
   async ngOnInit() {
     // Subscribe to language changes
-    this._dataService
+    this._languageChangeSubscription = this._dataService
       .getSelectedLanguageSubject()
       .subscribe(async (language: string) => {
         const urlTree = this._router.parseUrl(this._router.url);
@@ -84,8 +84,12 @@ export class ArticleViewerComponent
         ].path = language;
 
         await this._router.navigateByUrl(urlTree);
-        await this.reloadArticle();
       });
+
+    // Subscribe to route params
+    this._reloadArticleSubscription = this._route.params.subscribe(async () => {
+      await this.reloadArticle();
+    });
   }
 
   ngAfterViewInit() {
@@ -172,7 +176,7 @@ export class ArticleViewerComponent
   }
 
   ngOnDestroy(): void {
-    this._scrollSubscription.unsubscribe();
     this._languageChangeSubscription.unsubscribe();
+    this._reloadArticleSubscription.unsubscribe();
   }
 }

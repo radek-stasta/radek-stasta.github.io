@@ -7,7 +7,7 @@
         <div class="font-bold underline text-xl mb-1">{{ tag }}</div>
         @for (article of articles; track article) {
           @if (article.tags.includes(tag)) {
-            <div>
+            <div [hidden]="checkLanguage(article.path)">
               <button
                 tabindex="0"
                 class="hover:text-rose-500 hover:underline"

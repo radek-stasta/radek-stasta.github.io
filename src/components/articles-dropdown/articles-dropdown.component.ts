@@ -66,6 +66,10 @@ export class ArticlesDropdownComponent implements OnInit {
     this.articlesLoaded = true;
   }
 
+  checkLanguage(path: string) {
+    return this._dataService.selectedLanguage != path.split('/').pop()!;
+  }
+
   getArticlePaths() {
     const articlePaths: string[] = [];
     this._articleFiles.forEach((file) => {
