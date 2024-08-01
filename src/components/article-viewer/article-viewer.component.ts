@@ -19,7 +19,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { DOCUMENT, NgClass } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   animate,
@@ -64,7 +64,6 @@ export class ArticleViewerComponent
     private _sanitizer: DomSanitizer,
     private _dataService: DataService,
     private _route: ActivatedRoute,
-    private _router: Router,
     private _renderer: Renderer2,
     private _el: ElementRef,
     private _translateService: TranslateService,
@@ -72,24 +71,7 @@ export class ArticleViewerComponent
   ) {}
 
   async ngOnInit() {
-    // Subscribe to language changes
-    this._languageChangeSubscription = this._dataService
-      .getSelectedLanguageSubject()
-      .subscribe(async (language: string) => {
-        const urlTree = this._router.parseUrl(this._router.url);
-
-        // this assumes your language is the last segment in your URL
-        urlTree.root.children['primary'].segments[
-          urlTree.root.children['primary'].segments.length - 1
-        ].path = language;
-
-        await this._router.navigateByUrl(urlTree);
-      });
-
-    // Subscribe to route params
-    this._reloadArticleSubscription = this._route.params.subscribe(async () => {
-      await this.reloadArticle();
-    });
+    await this.reloadArticle();
   }
 
   ngAfterViewInit() {

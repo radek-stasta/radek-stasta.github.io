@@ -33,7 +33,12 @@
               "src/styles.sass",
               "node_modules/highlight.js/styles/nord.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": {
+              "routesFile": "routes.txt"
+            },
+            "ssr": false
           },
           "configurations": {
             "production": {

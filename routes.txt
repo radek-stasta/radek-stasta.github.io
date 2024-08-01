@@ -1,0 +1,2 @@
+/articles/publishing-angular-app-to-github-pages/cz
+/articles/publishing-angular-app-to-github-pages/en

@@ -4,10 +4,16 @@ import {
   ElementRef,
   ViewChild,
   OnInit,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ArticleViewerComponent } from '../components/article-viewer/article-viewer.component';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {
+  CommonModule,
+  isPlatformBrowser,
+  NgOptimizedImage,
+} from '@angular/common';
 import { DataService } from '../services/data/data.service';
 import { ArticlesDropdownComponent } from '../components/articles-dropdown/articles-dropdown.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -36,28 +42,31 @@ export class AppComponent implements AfterViewInit, OnInit {
     protected dataService: DataService,
     protected router: Router,
     private _cookieService: CookieService,
+    @Inject(PLATFORM_ID) private _platform: string,
   ) {}
 
   ngOnInit() {
-    // set language from cookie or browser if not in cookie
-    let language = this._cookieService.get('language');
+    if (isPlatformBrowser(this._platform)) {
+      // set language from cookie or browser if not in cookie
+      let language = this._cookieService.get('language');
 
-    if (!language) {
-      language = navigator.language;
-      console.log(language);
-      if (
-        language.toLowerCase().includes('cz') ||
-        language.toLowerCase().includes('cs')
-      ) {
-        language = 'cz';
-      } else {
-        language = 'en';
+      if (!language) {
+        language = navigator.language;
+        console.log(language);
+        if (
+          language.toLowerCase().includes('cz') ||
+          language.toLowerCase().includes('cs')
+        ) {
+          language = 'cz';
+        } else {
+          language = 'en';
+        }
+
+        this._cookieService.set('language', language, 365);
       }
 
-      this._cookieService.set('language', language, 365);
+      this.dataService.selectedLanguage = language;
     }
-
-    this.dataService.selectedLanguage = language;
   }
 
   ngAfterViewInit() {

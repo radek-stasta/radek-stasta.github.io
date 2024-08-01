@@ -1,0 +1,179 @@
+#+title:  Publikování Angular webové aplikace do Github Pages
+#+TAGS:   Angular
+#+author: Radek Šťasta
+#+date:   {{lastModified}}
+
+* Úvod
+
+Při vytváření webových stránek je nutným požadavkem vystavit tyto stránky na internet, aby byly dostupné světu na zvolené
+webové adrese. Pro tyto účely slouží řada webhostingů, poskytujících služby jak zdarma, tak za poplatky.
+V dřívějších dobách byl klasický scénář vytváření webu takový, že si člověk vytvořil většinou vícestránkový web (tedy
+web skládající se z jednotlivých html stránek jako Domů, Kontakt, atd.), zaplatil si doménu a na tuto doménu nahrál
+potřebné soubory. V dnešní době je však běžné mít jednostránkový web (vytvořený například ve frameworcích jako je
+Angular, React, Vue). Záleží samozřejmě na použití. Oba přístupy mají své pro a proti. Navíc je nyní již běžné mít
+zdrojové kódy zálohované verzovacím nástrojem jako je například Git. Webová služba GitHub nabízí toto verzování pro
+každého zdarma (pro základní použití) a také nabízí službu Github Pages, které se věnuje tento článek.
+
+Github Pages nabízí to samé jako ostatní hostingoví poskytovatelé. To znamená publikování webových stránek pod webovou
+adresou projektu v Githubu. V tomto článku se konktétně zaměříme na to, jak vytvořit Angular webovou aplikaci a tuto pomocí
+Github Pages publikovat na webu. Výhodou tohoto přístupu je skutečnost, že máte zdrojové kódy webové aplikace uložené v projektu v
+Githubu, ze kterých se například pomocí balíčku [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]]
+vytvoří finální web a ten je verzován ve stejném Github projetku, jako jeho zdrojové soubory.
+
+* Požadavky
+
+- Účet na [[https://github.com/][GitHubu]], kde bude vytvořen projekt a následně publikován skrze GitHub Pages
+- Nainstalovyný verzovací nástroj [[https://git-scm.com/][Git]]
+- Nainstalované [[https://nodejs.org/][Node.js]] a npm (Node Package Manager)
+- Základní porozumění práce s příkazovým řádkem ve zvoleném operačním systému. Tento návod byl vytvářen v systému Linux, ale ve Windows by se příkazy neměly nijak lišit
+
+* Návod na publikování Angular aplikace do Github Pages
+
+** Vytvoření jednostránkové Angular webové aplikace
+
+Nejprve vytvoříme jednoduchou jednostránkovou webovou aplikaci pomocí Angular CLI. Tento nástroj nám umožní vytvořit
+jednoduchý projekt v Angularu a také vytvoří pro tento projekt lokální Git repozitář. Pokud není v systému Angular CLI
+dostupný, je možné ho nainstalovat pomocí příkazu:
+
+~npm install -g @angular/cli~
+
+Novou aplikaci vytvoříme v aktuálním adresáři pomocí příkazu:
+
+~ng new my-website~
+
+Po spuštění příkazu se zobrazí jednoduchý průvodce pro vytvoření nové aplikace. Pro tento návod není důležité, jaké nastavení
+se zvolí. Pro formát kaskádových stylů je možné zvolit CSS a při dotazu na povolení SSR a SSG zvolit možnost N. Namísto *my-website*
+je možné zvolit jakékoliv jiné jméno aplikace.
+
+Nyní můžeme vyzkoušet, že naše nová aplikace funguje, pomocí příkazu *ng serve* v adresáři aplikace:
+
+~cd my-website # nebo jiný zvolený název aplikace~
+~ng serve --open~
+
+Pokud všechno proběhlo v pořádku, měl by se otevřít webový prohlížeč s obsahem demo aplikace.
+
+#+ATTR_HTML: :alt Demo aplikace vystavená na localhost
+[[/articles/publishing-angular-app-to-github-pages/img/001.png]]
+
+** Vytvoření repozitáře na GitHubu
+
+Nyní, když máme připravenou webovou aplikaci, je potřeba vytvořit repozitář na GitHubu, kam nejprve nahrajeme zdrojové kódy
+a kde následně také vygenerujeme zkompilované soubory, které se použijí pro publikování přes GitHub Pages.
+
+#+ATTR_HTML: :alt Vytvoření nového repozitáře na GitHubu
+[[/articles/publishing-angular-app-to-github-pages/img/002.png]]
+
+Pokud chceme, aby byly webové stránky dostupné přímo pod adresou uživatelského účtu, je třeba vytvořit repozitář ve tvaru *[uživatelské jméno].github.io*
+(jako např. na obrázku výše, stánky budou následně dostupné na adrese radek-stasta-dev.github.io). Pokud zvolíme jakékoliv
+jiné jméno repozitáře, bude dostupný na adrese *[uživatelské jméno].github.io/[název repozitáře]*. Po vytvoření repozitáře
+je třeba poznamenat si adresu repozitáře s příponou .git, kterou budeme potřebovat v následujícím kroku.
+
+#+ATTR_HTML: :alt Kde najít URL repozitáře na GitHubu
+[[/articles/publishing-angular-app-to-github-pages/img/003.png]]
+
+** Vytvoření personal access tokenu na GitHubu
+
+Pokud již access token máte, nebo pokud nahráváte na GitHub jiným způsobem (přes SSH, GitHub CLI, rozšíření ve VS Code...),
+můžete tento krok přeskočit.
+
+Pro nahrání souborů na GitHub je možné využít personal access token. Tento token pak využijeme při nahrávání lokálních souborů
+na GitHub pro autorizaci který účet soubory nahrává. Pro vytvoření access tokenu klikneme na obrázek profilu na GitHubu a
+následně zvolíme *Settings*. V levém sloupci s nabídkou naspodu *Developer Settings* a v další nabídce *Personal access tokens*
+a možnost *Fine-grained token*. Zde klikneme na tlačítko *Generate new token*.
+
+Zde vyplníme název tokenu, a zvolíme možnost *All repositories* v přístupu k repozitářům (případně *Only select repositories*, pokud
+chceme omezit na které repozitáře nastavíme práva). Následně v sekci *Repository permissions* nastavíme právo *Contents* na
+hodnotu *Access: Read and Write* a stiskneme tlačítko *Generate token*.
+
+#+ATTR_HTML: :alt Základní nastavení personal access tokenu
+[[/articles/publishing-angular-app-to-github-pages/img/004.png]]
+
+#+ATTR_HTML: :alt Nastavení přístupu k repozitářům pro personal access token
+[[/articles/publishing-angular-app-to-github-pages/img/005.png]]
+
+Na následující obrazovce se zobrazí vygenerovaný access token a je *NUTNÉ* si tento access token zkopírovat a uložit, protože
+jindy už není možné si tento token z bezpečnostních důvodů znovu zobrazit. Bylo by třeba vygenerovat access token znovu.
+
+#+ATTR_HTML: :alt Vygenerovaný personal access token
+[[/articles/publishing-angular-app-to-github-pages/img/006.png]]
+
+** Nahrání lokálních souborů do GitHub repozitáře
+
+Jak již bylo zmíněno, Angular CLI pro naši aplikaci automaticky vytvořil i lokální Git repozitář. Nyní je potřeba tento
+repozitář propojit s nově vytvořeným repozitářem na GitHubu. K tomu nám poslouží následující příkazy spuštěné v adresáři
+Angular projektu (git config příkazy jsou potřeba pouze pokud nemáte uživatelské jméno a email pro Git již nastavené globálně):
+
+~git remote add origin https://github.com/[uživatelské jméno]/[název repozitáře].git~
+~git config --global user.name "[uživatelské jméno]"~
+~git config --global user.email "[email]"~
+~git commit -m "[text commitu]"~
+~git push -u origin master~
+
+Konkrétní příklad pak může vypadat například takto:
+
+~git remote add origin https://github.com/radek-stasta-dev/radek-stasta-dev.github.io.git~
+~git config --global user.name "Radek Šťasta"~
+~git config --global user.email "rstasta@icloud.com"~
+~git commit -m "Initial commit"~
+~git push -u origin master~
+
+Po zavolání příkazu *git push* je nutné vyplnit uživatelské jméno pro přístup do GitHubu (email) a heslo. V případě hesla
+je nutné vyplnit (zkopírovat) personal access token, protože GitHub od roku 2021 nepodporuje nahrávání souborů přes
+příkazový řádek za pomocí uživatelského jména a hesla. Pokud všechno proběhlo v pořádku, můžeme zkontrolovat nově nahrané
+soubory v rozhranní GitHubu.
+
+#+ATTR_HTML: :alt Nahrané soubory aplikace v repozitáři na GitHubu
+[[/articles/publishing-angular-app-to-github-pages/img/007.png]]
+
+** Vytvoření zkompilovaných stránek pro publikaci pomocí balíčku angular-cli-ghpages
+
+Pro zjedonušení kompilování zdrojového kódu aplikace do statických souborů, které bude možné publikovat do GitHub pages
+využijeme balíček [[https://github.com/angular-schule/angular-cli-ghpages][angular-cli-ghpages]]. Tento balíček zkompiluje
+naše zdrojové soubory a vytvoří v repozitáři novou větev, do které nahraje výsledné soubory. Nejprve je nutné přidat tento
+balíček do aplikace pomocí příkazu Angular CLI (v adresáři aplikace):
+
+~ng add angular-cli-ghpages~
+
+Tuto změnu můžeme také nahrát do repozitáře pomocí:
+
+~git add -A~
+~git commit -m "Added angular-cli-ghpages"~
+~git push~
+
+Nyní stačí v adresáři s aplikací spustit následující příkaz a *angular-cli-ghpages* se již postará o vše ostatní:
+
+~ng deploy --repo=https://github.com/[uživatelské jméno]/[název repozitáře].git --base-href=/~
+
+#+ATTR_HTML: :alt Příklad výstupu kompilace angular-cli-ghpages
+[[/articles/publishing-angular-app-to-github-pages/img/008.png]]
+
+Pokud vše proběhlo v pořádku, *angular-cli-ghpages* vytvořil v GitHubu novou větev gh-pages, do které nahrál zkompilované
+soubory webových stránek.
+
+#+ATTR_HTML: :alt Nahrané zkompilované soubory v gh-pages větvi na GitHubu
+[[/articles/publishing-angular-app-to-github-pages/img/009.png]]
+
+** Nastavení větve se soubory pro GitHub Pages v GitHubu
+
+Poslední co zbývá, je nastavit v GitHubu, jaká větev se má použít pro GitHub Pages. V horních záložkách v repozitáři zvolíme
+možnost *Settings* a následně v levém menu *Pages*. V základním nastavení je použita větev master, kterou je potřeba
+přepnout na nově vytvořenou *gh-pages* a stisknout tlačítko *Save*.
+
+#+ATTR_HTML: :alt Nastavení GitHub Pages
+[[/articles/publishing-angular-app-to-github-pages/img/010.png]]
+
+GitHub po chvíli tuto změnu zaregistruje, přepne větve a pokud klikneme na tlačítko *Visit site* v horní části obrazovky,
+nebo otevřeme prohlížeč na adrese webových stránek, měly by se zobrazit stejné stránky, jako ty, které jsme testovali lokálně,
+nyní však již vystavené na webu přes GitHub Pages.
+
+#+ATTR_HTML: :alt Finální publikovaná aplikace na GitHubu prostřednictvím GitHub Pages
+[[/articles/publishing-angular-app-to-github-pages/img/011.png]]
+
+* Závěr
+
+V tomto návodu jsme si ukázali, jak vytvořit základní Angular aplikaci přes Angular CLI a jak tuto aplikaci publikovat
+na webu za pomoci GitHub Pages. Tento přístup má svá omezení - to nejdůležitejší je limit 1 GB pro soubory v GitHub Pages
+a limit 10 kompilací za hodinu. To by ale například pro soukromé účely mělo ve většině případů stačit.
+Typickým příkladem práce je tedy lokální úprava zdrojových souborů v master větvi, kde můžeme vytvářet desítky commitů
+a poté, když jsme spokojeni s výsledkem, spustit příkaz *ng deploy*, který zkompiluje zdrojové soubory a nasadí nový
+web. A ano, ten kdo je všímavý jistě zjistil, že i tyto stránky jsou na webu publikovány přesně tímto způsobem.
