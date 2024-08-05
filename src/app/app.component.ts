@@ -39,12 +39,19 @@ export class AppComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit() {
-    // set language from cookie or browser if not in cookie
+    this.dataService.selectedLanguage = this.determineLanguage();
+  }
+
+  ngAfterViewInit() {
+    this.dataService.headerHeight =
+      this.headerElement.nativeElement.scrollHeight;
+  }
+
+  private determineLanguage() {
     let language = this._cookieService.get('language');
 
     if (!language) {
       language = navigator.language;
-      console.log(language);
       if (
         language.toLowerCase().includes('cz') ||
         language.toLowerCase().includes('cs')
@@ -53,16 +60,9 @@ export class AppComponent implements AfterViewInit, OnInit {
       } else {
         language = 'en';
       }
-
       this._cookieService.set('language', language, 365);
     }
-
-    this.dataService.selectedLanguage = language;
-  }
-
-  ngAfterViewInit() {
-    this.dataService.headerHeight =
-      this.headerElement.nativeElement.scrollHeight;
+    return language;
   }
 
   onMainDivScroll(event: Event) {

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private _headerHeight = 0;
-  private _selectedLanguage = new BehaviorSubject<string>('en');
+  private _selectedLanguage = 'en';
+  private _languageChanged = new Subject<string>();
   private _isArticleDropdownVisible = false;
 
   constructor(
@@ -27,16 +28,18 @@ export class DataService {
   }
 
   set selectedLanguage(language: string) {
+    const originalLanguage = this._selectedLanguage;
+
     this._cookieService.set('language', language, 365);
     this._translateService.use(language);
-    this._selectedLanguage.next(language);
+    this._selectedLanguage = language;
+
+    if (originalLanguage != this._selectedLanguage) {
+      this._languageChanged.next(language);
+    }
   }
 
   get selectedLanguage() {
-    return this._selectedLanguage.getValue();
-  }
-
-  getSelectedLanguageSubject() {
     return this._selectedLanguage;
   }
 
@@ -46,5 +49,9 @@ export class DataService {
 
   get isArticleDropdownVisible() {
     return this._isArticleDropdownVisible;
+  }
+
+  onLanguageChange() {
+    return this._languageChanged.asObservable();
   }
 }

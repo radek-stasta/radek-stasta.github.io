@@ -6,7 +6,6 @@ import {
   Inject,
   Input,
   OnDestroy,
-  OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -44,15 +43,12 @@ import {
     ]),
   ],
 })
-export class ArticleViewerComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ArticleViewerComponent implements AfterViewInit, OnDestroy {
   @Input() headerElement!: ElementRef;
   @ViewChild('summaryPanelToggle', { static: false })
   summaryPanelToggleElement!: ElementRef;
 
   private _languageChangeSubscription: Subscription = new Subscription();
-  private _reloadArticleSubscription: Subscription = new Subscription();
 
   protected articleHtml: SafeHtml = '';
   protected summaryLines: string[] = [];
@@ -71,45 +67,20 @@ export class ArticleViewerComponent
     @Inject(DOCUMENT) private _document: Document,
   ) {}
 
-  async ngOnInit() {
-    // Subscribe to language changes
+  async ngAfterViewInit() {
     this._languageChangeSubscription = this._dataService
-      .getSelectedLanguageSubject()
-      .subscribe(async (language: string) => {
-        const urlTree = this._router.parseUrl(this._router.url);
-
-        // this assumes your language is the last segment in your URL
-        urlTree.root.children['primary'].segments[
-          urlTree.root.children['primary'].segments.length - 1
-        ].path = language;
-
-        await this._router.navigateByUrl(urlTree);
+      .onLanguageChange()
+      .subscribe(async (value) => {
+        console.log(value);
+        const currentUrl = this._router.url;
+        await this._router.navigateByUrl(
+          currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1) + value,
+        );
+        await this.reloadArticle();
       });
 
-    // Subscribe to route params
-    this._reloadArticleSubscription = this._route.params.subscribe(async () => {
-      await this.reloadArticle();
-    });
-  }
-
-  ngAfterViewInit() {
-    const script = this._renderer.createElement('script');
-    script.defer = true;
-    script.async = true;
-    script.src = 'https://giscus.app/client.js';
-    script.setAttribute('crossorigin', 'anonymous');
-    script.setAttribute('data-repo', 'radek-stasta/radek-stasta.github.io');
-    script.setAttribute('data-repo-id', 'R_kgDOMVlNQw');
-    script.setAttribute('data-category', 'giscus');
-    script.setAttribute('data-category-id', 'DIC_kwDOMVlNQ84ChCZ1');
-    script.setAttribute('data-mapping', 'url');
-    script.setAttribute('data-strict', '0');
-    script.setAttribute('data-reactions-enabled', '1');
-    script.setAttribute('data-emit-metadata', '0');
-    script.setAttribute('data-input-position', 'bottom');
-    script.setAttribute('data-theme', 'light');
-    script.setAttribute('data-lang', 'en');
-    this._renderer.appendChild(this._el.nativeElement, script);
+    await this.reloadArticle();
+    this.addCommentsScript();
   }
 
   @HostListener('document:click', ['$event'])
@@ -171,12 +142,31 @@ export class ArticleViewerComponent
     );
   }
 
+  addCommentsScript() {
+    const script = this._renderer.createElement('script');
+    script.defer = true;
+    script.async = true;
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('crossorigin', 'anonymous');
+    script.setAttribute('data-repo', 'radek-stasta/radek-stasta.github.io');
+    script.setAttribute('data-repo-id', 'R_kgDOMVlNQw');
+    script.setAttribute('data-category', 'giscus');
+    script.setAttribute('data-category-id', 'DIC_kwDOMVlNQ84ChCZ1');
+    script.setAttribute('data-mapping', 'url');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'light');
+    script.setAttribute('data-lang', 'en');
+    this._renderer.appendChild(this._el.nativeElement, script);
+  }
+
   toggleSummary() {
     this.isSummaryCollapsed = !this.isSummaryCollapsed;
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._languageChangeSubscription.unsubscribe();
-    this._reloadArticleSubscription.unsubscribe();
   }
 }
