@@ -5,3 +5,8 @@ import { config } from './app/app.config.server';
 const bootstrap = () => bootstrapApplication(AppComponent, config);
 
 export default bootstrap;
+
+process.on('SIGINT', () => {
+  console.log('\nShutting down');
+  process.exit(0);
+});
