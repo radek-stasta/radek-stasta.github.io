@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass',
 })
