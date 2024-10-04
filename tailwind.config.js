@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const { createThemes } = require('tw-colors')
+
 module.exports = {
   content: [
     "./src/**/*.{html,ts}",
@@ -10,6 +12,14 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    createThemes({
+      nord: {
+        transparent: 'transparent',
+        'white': '#eceff4',
+        'red': '#bf616a'
+      }
+    })
+  ],
 }
 
