@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ArticleService {
-  constructor(private _http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
   getArticle(fileName: string): Observable<string> {
     return this._http

@@ -11,7 +11,7 @@ import { ArticleService } from '../../services/article/article.service';
 export class ArticlesComponent implements OnInit {
   articleContent = '';
 
-  constructor(private _articleService: ArticleService) {}
+  constructor(private readonly _articleService: ArticleService) {}
 
   ngOnInit(): void {
     this._articleService.getArticle('test_article.txt').subscribe((content: string) => {
