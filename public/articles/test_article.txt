@@ -1,0 +1,19 @@
+#+TITLE: Sample Article
+#+AUTHOR: Radek Stasta
+#+DATE: 2023-10-05
+
+* Introduction
+This is a sample article written in org-mode. Org-mode is a powerful system for organizing your notes, tasks, and projects.
+
+* Main Content
+** Section 1: What is Org-Mode?
+Org-mode is an Emacs mode for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
+
+** Section 2: Features of Org-Mode
+- Hierarchical organization of data
+- TODO lists with progress tracking
+- Scheduling and deadlines
+- Exporting to various formats (HTML, PDF, etc.)
+
+* Conclusion
+Org-mode is a versatile tool that can help you stay organized and productive. Give it a try and see how it can improve your workflow!
