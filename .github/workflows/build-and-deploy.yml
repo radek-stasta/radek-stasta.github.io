@@ -1,0 +1,49 @@
+name: Build and push to Deploy Branch
+
+on:
+  push:
+    branches:
+      - main  # Runs when you push to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 23
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular app
+        run: npm run build -- --output-path=dist
+
+      - name: Push to Deploy branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a new Deploy branch (or switch to it)
+          git fetch origin deploy || git branch deploy
+          git checkout --orphan deploy
+
+          # Remove all files from tracking (avoiding unwanted files)
+          git rm -rf .
+
+          # Copy built files from dist/radek-stasta.github.io/browser
+          cp -r dist/radek-stasta.github.io/browser/* .
+
+          # Ensure only built files are committed
+          rm -rf dist
+          echo "node_modules/" > .gitignore
+
+          git add .
+          git commit -m "Build and deploy"
+          git push --force origin dist
