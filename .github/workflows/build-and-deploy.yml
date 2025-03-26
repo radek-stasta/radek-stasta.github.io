@@ -3,7 +3,7 @@ name: Build and push to Deploy Branch
 on:
   push:
     branches:
-      - main  # Runs when you push to the main branch
+      - main # Runs when you push to the main branch
 
 jobs:
   build-and-deploy:
