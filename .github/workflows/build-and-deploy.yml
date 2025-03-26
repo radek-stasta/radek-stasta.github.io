@@ -46,4 +46,4 @@ jobs:
 
           git add .
           git commit -m "Build and deploy"
-          git push --force origin dist
+          git push --force origin deploy
