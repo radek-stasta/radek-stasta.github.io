@@ -37,8 +37,8 @@ jobs:
           # Remove all files from tracking (avoiding unwanted files)
           git rm -rf .
 
-          # Copy built files from dist/radek-stasta.github.io/browser
-          cp -r dist/radek-stasta.github.io/browser/* .
+          # Copy built files from dist/browser
+          cp -r dist/browser/* .
 
           # Ensure only built files are committed
           rm -rf dist
