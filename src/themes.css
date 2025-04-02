@@ -1,0 +1,13 @@
+@theme {
+  --color-primary: white;
+}
+
+@layer base {
+  [data-theme="nord"] {
+    --color-primary: #88c0d0;
+  }
+
+  [data-theme="dracula"] {
+    --color-primary: #bd93f9;
+  }
+}
