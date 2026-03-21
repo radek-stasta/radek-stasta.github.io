@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-primary: var(--primary);
+  --color-surface: var(--surface);
+}
+
+/* Light */
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --primary: #3b82f6;
+  --surface: #f3f4f6;
+}
+
+/* Dark */
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --fg: #f0f6fc;
+  --primary: #58a6ff;
+  --surface: #161b22;
+}
