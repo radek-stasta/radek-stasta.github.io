@@ -6,10 +6,12 @@ export default function Home() {
       <div className="flex flex-row rounded-2xl bg-surface shadow-md overflow-hidden max-w-2xl w-full">
         {/* Left column - photo */}
         <div className="w-1/3 shrink-0">
-          <img
-            src="images/myself.jpg"
+          <Image
+            src="/images/myself.jpg"
             alt="Radek Šťasta"
-            className="w-full h-full object-cover"
+            width={400}
+            height={600}
+            className="w-full h-auto"
           />
         </div>
 
